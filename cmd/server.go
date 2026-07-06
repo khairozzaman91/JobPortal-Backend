@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
 )
 
@@ -12,10 +13,14 @@ func Server() {
 
 	mux := http.NewServeMux()
 
+	// job post  handler
 	mux.Handle("GET /jobs", middlewares.Logger(http.HandlerFunc(jobs.GetJobs)))
 	mux.Handle("POST /jobs", middlewares.Logger(http.HandlerFunc(jobs.CreatePost)))
 	mux.Handle("PUT /jobs/{id}", middlewares.Logger(http.HandlerFunc(jobs.UpdatePost)))
-	mux.Handle("DELETE /jobs/{id}",middlewares.Logger(http.HandlerFunc(jobs.DeletePost)))
+	mux.Handle("DELETE /jobs/{id}", middlewares.Logger(http.HandlerFunc(jobs.DeletePost)))
+
+	// user handler
+	mux.Handle("POST /users", middlewares.Logger(http.HandlerFunc(user.CreateUser)))
 
 	fmt.Println("Server Running on port : 3000")
 
