@@ -27,10 +27,28 @@ A scalable Job Portal Backend API built with Go using Clean Architecture.
 - JWT Authentication
 - Clean Architecture
 
+
+**Features Added:**
+- POST /jobs endpoint for creating new jobs
+- JSON request body support
+- Automatic ID generation
+- CORS support with preflight check
+- Error handling for invalid requests
+
+**Tested with Postman:**
+- Create Job with valid JSON
+- Error handling for invalid JSON
+- Method not allowed check
+## ✅ Delete Job Implemented
+
+- DELETE /jobs/{id} endpoint
+- Removes job from list
+- Returns success message
+- Tested with Postman
+- Complete Full CRUD Operations
 ## Next Steps
 - User Authentication
 - Job Application System
-- Full CRUD Operations
 - Rate Limiting
 
 **Status**: In Progress
