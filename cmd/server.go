@@ -14,6 +14,7 @@ func Server() {
 	mux.Handle("GET /jobs", http.HandlerFunc(jobs.GetJobs))
 	mux.Handle("POST /jobs", http.HandlerFunc(jobs.CreatePost))
 	mux.Handle("PUT /jobs/{id}", http.HandlerFunc(jobs.UpdatePost))
+	mux.Handle("DELETE /jobs/{id}", http.HandlerFunc(jobs.DeletePost))
 
 	fmt.Println("Server Running on port : 3000")
 	err := http.ListenAndServe(":3000", mux)

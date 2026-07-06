@@ -1,16 +1,15 @@
 package jobs
 
 import (
-	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
 )
 
-func CreatePost(w http.ResponseWriter, r *http.Request) {
+func DeletePost(w http.ResponseWriter, r *http.Request) {
 
-	// Cross check
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
@@ -21,29 +20,32 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodDelete {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	var newJob domain.Job
-
-	decode := json.NewDecoder(r.Body)
-	err := decode.Decode(&newJob)
-	if err != nil {
-		http.Error(w, "Give me valid json", http.StatusBadRequest)
+	strId := r.PathValue("id")
+	if strId == "" {
+		http.Error(w, "Missing ID", http.StatusBadRequest)
 		return
 	}
 
-	// Append to jobList
+	id, err := strconv.ParseUint(strId, 10, 32)
+	if err != nil {
+		http.Error(w, "Invalid job ID", http.StatusBadRequest)
+		return
+	}
 
-	newJob.ID = uint(len(dto.JobList) + 1)
-	dto.JobList = append(dto.JobList, newJob)
+	var newList []domain.Job
 
-	// Response
-	encode := json.NewEncoder(w)
-	w.WriteHeader(http.StatusOK)
-	encode.Encode(newJob)
+	for _, job := range dto.JobList {
+		if job.ID != uint(id) {
+			newList = append(newList, job)
+		}
+	}
 
-	http.Error(w, "Create sucessfully", http.StatusOK)
+	dto.JobList = newList
+
+	http.Error(w, "Job deleted successfully", http.StatusOK)
 }

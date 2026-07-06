@@ -57,6 +57,7 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 			dto.JobList[i].ExperienceLevel = updatelist.ExperienceLevel
 
 			encode := json.NewEncoder(w)
+			w.WriteHeader(http.StatusOK)
 			encode.Encode(dto.JobList[i])
 			return
 		}
