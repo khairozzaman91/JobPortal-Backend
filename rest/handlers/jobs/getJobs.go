@@ -1,10 +1,10 @@
 package jobs
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
 func GetJobs(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +24,5 @@ func GetJobs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	encode := json.NewEncoder(w)
-	encode.Encode(dto.JobList)
+	utils.SendData(w, dto.JobList, http.StatusOK)
 }

@@ -6,6 +6,7 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
 func DeletePost(w http.ResponseWriter, r *http.Request) {
@@ -47,5 +48,5 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 
 	dto.JobList = newList
 
-	http.Error(w, "Job deleted successfully", http.StatusOK)
+	utils.SendData(w, "successfully Deleted Job", http.StatusOK)
 }

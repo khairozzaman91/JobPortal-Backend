@@ -7,6 +7,7 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
@@ -55,12 +56,12 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 			dto.JobList[i].Salary = updatelist.Salary
 			dto.JobList[i].JobType = updatelist.JobType
 			dto.JobList[i].ExperienceLevel = updatelist.ExperienceLevel
-
-			encode := json.NewEncoder(w)
-			w.WriteHeader(http.StatusOK)
-			encode.Encode(dto.JobList[i])
+			utils.SendData(w, dto.JobList[i], http.StatusCreated)
 			return
 		}
 	}
-	http.Error(w, "Job not found", http.StatusNotFound)
+
+	utils.SendError(w, http.StatusNotFound, "Job not found")
+
+	
 }
