@@ -56,6 +56,13 @@ A scalable Job Portal Backend API built with Go using Clean Architecture.
 - CORS Preflight checked
 - Error handling verified
 - JSON response validation
+
+ **User Module:**
+- User Domain Model
+- Create User Handler (POST /users)
+  **Tested with Postman:**
+- Create User tested successfully
+
   
 ## Next Steps
 - User Authentication
