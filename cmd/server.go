@@ -22,6 +22,7 @@ func Server() {
 	// user handler
 	mux.Handle("POST /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.CreateUser))))
 	mux.Handle("GET /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.GetUsers))))
+	mux.Handle("POST /login", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.LoginUser))))
 
 
 
