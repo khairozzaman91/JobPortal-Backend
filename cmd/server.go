@@ -14,13 +14,16 @@ func Server() {
 	mux := http.NewServeMux()
 
 	// job post  handler
-	mux.Handle("GET /jobs", middlewares.Logger(http.HandlerFunc(jobs.GetJobs)))
-	mux.Handle("POST /jobs", middlewares.Logger(http.HandlerFunc(jobs.CreatePost)))
-	mux.Handle("PUT /jobs/{id}", middlewares.Logger(http.HandlerFunc(jobs.UpdatePost)))
-	mux.Handle("DELETE /jobs/{id}", middlewares.Logger(http.HandlerFunc(jobs.DeletePost)))
+	mux.Handle("GET /jobs", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.GetJobs))))
+	mux.Handle("POST /jobs", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.CreatePost))))
+	mux.Handle("PUT /jobs/{id}", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.UpdatePost))))
+	mux.Handle("DELETE /jobs/{id}", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.DeletePost))))
 
 	// user handler
-	mux.Handle("POST /users", middlewares.Logger(http.HandlerFunc(user.CreateUser)))
+	mux.Handle("POST /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.CreateUser))))
+	mux.Handle("GET /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.GetUsers))))
+
+
 
 	fmt.Println("Server Running on port : 3000")
 
