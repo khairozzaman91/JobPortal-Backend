@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/khairozzaman91/JobPortal-Backend/config"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
@@ -13,25 +14,29 @@ func Server() {
 
 	mux := http.NewServeMux()
 
+	cg := config.GetConfig()
+
 	// job post  handler
-	mux.Handle("GET /jobs", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.GetJobs))))
-	mux.Handle("POST /jobs", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.CreatePost))))
-	mux.Handle("PUT /jobs/{id}", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.UpdatePost))))
-	mux.Handle("DELETE /jobs/{id}", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(jobs.DeletePost))))
+	mux.Handle("GET /jobs",middlewares.Logger(http.HandlerFunc(jobs.GetJobs)))
+	mux.Handle("POST /jobs", middlewares.Logger(http.HandlerFunc(jobs.CreatePost)))
+	mux.Handle("PUT /jobs/{id}",middlewares.Logger(http.HandlerFunc(jobs.UpdatePost)))
+	mux.Handle("DELETE /jobs/{id}",middlewares.Logger(http.HandlerFunc(jobs.DeletePost)))
 
 	// user handler
-	mux.Handle("POST /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.CreateUser))))
-	mux.Handle("GET /users", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.GetUsers))))
-	mux.Handle("POST /login", middlewares.CORSMiddleware(middlewares.Logger(http.HandlerFunc(user.LoginUser))))
+	mux.Handle("POST /users",middlewares.Logger(http.HandlerFunc(user.CreateUser)))
+	mux.Handle("GET /users", middlewares.Logger(http.HandlerFunc(user.GetUsers)))
+	mux.Handle("POST /login", middlewares.Logger(http.HandlerFunc(user.LoginUser)))
 
 
 
-	fmt.Println("Server Running on port : 3000")
+	fmt.Println("Server Running on port : 8080")
 
 	handler := middlewares.CORSMiddleware(mux)
-	err := http.ListenAndServe(":3000", handler)
+	port := fmt.Sprintf(":%d", cg.HTTPPort)
+	err := http.ListenAndServe(port, handler)
 	if err != nil {
 		fmt.Println("Server failed to start:", err)
 		return
 	}
 }
+
