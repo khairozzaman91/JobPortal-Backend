@@ -69,6 +69,27 @@ A scalable Job Portal Backend API built with Go using Clean Architecture.
 - Job Application System
 - Rate Limiting
 
+
+
+## 🚀 Features
+
+### 👤 User Management
+
+* Create a new user
+* Retrieve all registered users
+* Authenticate users using email and password
+
+### ⚙️ Environment Configuration
+
+The application loads its configuration from a `.env` file, allowing environment-specific settings to be managed without changing the source code.
+
+### 🔐 Login
+
+Authenticate a registered user using their email and password.
+
+> **Note:** This project currently stores and verifies passwords in plain text for learning purposes. Password hashing (bcrypt), JWT authentication, and role-based authorization will be implemented in future updates.
+
+
 **Status**: In Progress
 
 ---
