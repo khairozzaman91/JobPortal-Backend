@@ -1,95 +1,195 @@
 # Job Portal Backend (Go)
 
-**Current Progress**
-
-A scalable Job Portal Backend API built with Go using Clean Architecture.
-
-## ✅ Done So Far
-
-**Project Setup:**
-- Go Module Initialization
-- Clean Architecture Structure
-
-**Job Module:**
-- Job Domain Model
-- DTOs (CreateJobRequest, JobResponse)
-- Job Repository
-- Job Service
-- Job Handlers (GetAll, GetByID)
-- Manual 10 Job Posts for Testing
-
-**Testing:**
-- Postman API Testing completed for Job endpoints
-
-## 🛠 Tech Stack
-- Go (Golang)
-- PostgreSQL
-- JWT Authentication
-- Clean Architecture
-
-
-**Features Added:**
-- POST /jobs endpoint for creating new jobs
-- JSON request body support
-- Automatic ID generation
-- CORS support with preflight check
-- Error handling for invalid requests
-
-**Tested with Postman:**
-- Create Job with valid JSON
-- Error handling for invalid JSON
-- Method not allowed check
-## ✅ Delete Job Implemented
-
-- DELETE /jobs/{id} endpoint
-- Removes job from list
-- Returns success message
-- Tested with Postman
-- Complete Full CRUD Operations
-
-**Middleware:**
-- CORS Support
-- Logger Middleware
-
-**Tested with Postman:**
-- All CRUD operations tested
-- CORS Preflight checked
-- Error handling verified
-- JSON response validation
-
- **User Module:**
-- User Domain Model
-- Create User Handler (POST /users)
-  **Tested with Postman:**
-- Create User tested successfully
-
-  
-## Next Steps
-- User Authentication
-- Job Application System
-- Rate Limiting
-
-
-
-## 🚀 Features
-
-### 👤 User Management
-
-* Create a new user
-* Retrieve all registered users
-* Authenticate users using email and password
-
-### ⚙️ Environment Configuration
-
-The application loads its configuration from a `.env` file, allowing environment-specific settings to be managed without changing the source code.
-
-### 🔐 Login
-
-Authenticate a registered user using their email and password.
-
-> **Note:** This project currently stores and verifies passwords in plain text for learning purposes. Password hashing (bcrypt), JWT authentication, and role-based authorization will be implemented in future updates.
-
-
-**Status**: In Progress
+A scalable Job Portal Backend API built with Go using the standard `net/http` package. This project is being developed incrementally, where each feature is implemented, tested with Postman, and verified before moving to the next development step.
 
 ---
+
+# Development Progress
+
+## Step 1: Project Setup
+
+### Development
+
+- Initialized Go Module
+- Organized project structure
+- Configured HTTP server using Go standard library
+- Established clean and modular project architecture
+
+### Testing
+
+- Server startup verified
+- Basic API routing tested
+
+---
+
+## Step 2: Job Management
+
+### Development
+
+- Implemented Job domain model
+- Created POST `/jobs`
+- Implemented GET `/jobs`
+- Implemented PUT `/jobs/{id}`
+- Implemented DELETE `/jobs/{id}`
+- Completed full CRUD operations for job management
+
+### Testing (Postman)
+
+- Create Job with valid JSON
+- Retrieve all jobs
+- Update job information
+- Delete job by ID
+- Invalid JSON handling
+- Method validation
+- JSON response verification
+
+---
+
+## Step 3: User Management
+
+### Development
+
+- Implemented User domain model
+- Created POST `/users`
+- Implemented GET `/users`
+- Implemented POST `/login`
+- User authentication using email and password
+
+### Testing (Postman)
+
+- User registration tested
+- Retrieve users tested
+- Login authentication tested
+- Invalid login credentials tested
+
+---
+
+## Step 4: Environment Configuration
+
+### Development
+
+- Added `.env` file support
+- Implemented centralized configuration loader
+- Loaded application configuration from environment variables
+
+### Configuration
+
+- Service Name
+- Version
+- HTTP Port
+- JWT Secret
+
+### Testing
+
+- Environment variables loaded successfully
+- Server started using configured port
+
+---
+
+## Step 5: Middleware Implementation
+
+### CORS Middleware
+
+- Added CORS support
+- Configured allowed origins
+- Configured allowed HTTP methods
+- Configured allowed headers
+- Added preflight request handling (OPTIONS)
+
+### Logger Middleware
+
+- Implemented request logging middleware
+- Logs HTTP method
+- Logs request path
+- Tracks request execution time
+
+### Testing (Postman)
+
+- CORS headers verified
+- OPTIONS preflight request tested
+- API request logging verified
+
+---
+
+## Step 6: Custom JWT Authentication
+
+### Development
+
+Implemented JWT authentication from scratch without using any third-party JWT library.
+
+- Custom JWT generation
+- HMAC-SHA256 signature
+- Base64URL encoding
+- JWT payload creation
+- Issued At (`iat`)
+- Expiration Time (`exp`)
+
+### JWT Payload
+
+- User ID (`sub`)
+- First Name
+- Last Name
+- Email
+
+### Testing (Postman)
+
+- JWT generated after successful login
+- JWT returned to client
+- Token structure verified
+
+---
+
+## Step 7: Authorization Middleware
+
+### Development
+
+Implemented custom JWT Authorization Middleware.
+
+- Bearer Token validation
+- JWT signature verification
+- Payload decoding
+- Token expiration validation
+- Protected routes support
+
+### Protected Endpoints
+
+- POST `/jobs`
+- PUT `/jobs/{id}`
+- DELETE `/jobs/{id}`
+
+### Testing (Postman)
+
+- Valid JWT accepted
+- Missing token rejected
+- Invalid token rejected
+- Expired token rejected
+- Protected routes verified
+
+---
+
+# Tech Stack
+
+- Go (Golang)
+- Standard Library (`net/http`)
+- Custom JWT Authentication
+- Environment Configuration (`.env`)
+- Postman
+
+---
+
+# Next Development Steps
+
+- Password Hashing (bcrypt)
+- PostgreSQL Integration
+- Role-Based Authorization (RBAC)
+- Job Application System
+- Rate Limiting
+- Refresh Token
+- Unit Testing
+- Docker Support
+
+---
+
+# Current Status
+
+Project Status: In Progress 
