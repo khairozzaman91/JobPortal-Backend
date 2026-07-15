@@ -177,6 +177,26 @@ Implemented custom JWT Authorization Middleware.
 
 ---
 
+## Middleware
+
+Implemented a custom Middleware Manager to simplify middleware registration and execution. The manager supports both global middleware and route-specific middleware, making the request pipeline clean, modular, and easy to extend.
+
+**Features Added:**
+- Middleware Manager
+- Global Middleware Registration (`Use`)
+- Route-Specific Middleware (`With`)
+- Middleware Chaining
+- CORS Middleware
+- Logger Middleware
+
+**Tested with Postman:**
+- Verified Global Middleware execution
+- Verified Route-Specific Middleware execution
+- Verified protected routes require JWT authentication
+- Verified public routes are accessible without authentication
+- Verified CORS preflight requests
+- Verified request logging for all incoming requests
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
@@ -191,5 +211,7 @@ Implemented custom JWT Authorization Middleware.
 ---
 
 # Current Status
+
+
 
 Project Status: In Progress 
