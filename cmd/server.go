@@ -12,31 +12,30 @@ import (
 
 func Server() {
 
+	manager := middlewares.NewManager()
+
 	mux := http.NewServeMux()
 
-	cg := config.GetConfig()
+	cfg := config.GetConfig()
 
-	// job post  handler
-	mux.Handle("GET /jobs",middlewares.Logger(http.HandlerFunc(jobs.GetJobs)))
-	mux.Handle("POST /jobs", middlewares.Logger(middlewares.Authorization(http.HandlerFunc(jobs.CreatePost))))
-	mux.Handle("PUT /jobs/{id}",middlewares.Logger(middlewares.Authorization(http.HandlerFunc(jobs.UpdatePost))))
-	mux.Handle("DELETE /jobs/{id}",middlewares.Logger(middlewares.Authorization(http.HandlerFunc(jobs.DeletePost))))
+	manager.Use(
+		middlewares.CORSMiddleware,
+		middlewares.Logger,
+	)
 
-	// user handler
-	mux.Handle("POST /users",middlewares.Logger(http.HandlerFunc(user.CreateUser)))
-	mux.Handle("GET /users", middlewares.Logger(http.HandlerFunc(user.GetUsers)))
-	mux.Handle("POST /login", middlewares.Logger(http.HandlerFunc(user.LoginUser)))
+	// Register Routes
+	jobs.RegisterRoutes(mux, manager)
+	user.RegisterRoutes(mux, manager)
 
+	handler := manager.Wraper(mux)
 
+	fmt.Println("Server Running on port :8080")
 
-	fmt.Println("Server Running on port : 8080")
+	port := fmt.Sprintf(":%d", cfg.HTTPPort)
 
-	handler := middlewares.CORSMiddleware(mux)
-	port := fmt.Sprintf(":%d", cg.HTTPPort)
 	err := http.ListenAndServe(port, handler)
 	if err != nil {
 		fmt.Println("Server failed to start:", err)
 		return
 	}
 }
-

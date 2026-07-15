@@ -6,12 +6,13 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		utils.SendError(w, http.StatusMethodNotAllowed, "Method not allowed")
 		return
 	}
 
@@ -20,19 +21,16 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	decode := json.NewDecoder(r.Body)
 	err := decode.Decode(&newJob)
 	if err != nil {
-		http.Error(w, "Give me valid json", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Give me valid json")
 		return
 	}
 
-	// Append to jobList
-
+	// Generate Job ID
 	newJob.ID = uint(len(dto.JobList) + 1)
+
+	// Save Job
 	dto.JobList = append(dto.JobList, newJob)
 
-	// Response
-	encode := json.NewEncoder(w)
-	w.WriteHeader(http.StatusOK)
-	encode.Encode(newJob)
-
-	http.Error(w, "Create sucessfully", http.StatusOK)
+	// Success Response
+	utils.SendData(w, newJob, http.StatusCreated)
 }
