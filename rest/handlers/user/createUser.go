@@ -9,7 +9,7 @@ import (
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
- 
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -19,6 +19,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, "Give me valid json", http.StatusBadRequest)
+		return
+	}
+
+	// Role Validation
+	switch user.Role {
+	case "admin", "employer", "jobseeker":
+	default:
+		http.Error(w, "Invalid role", http.StatusBadRequest)
 		return
 	}
 

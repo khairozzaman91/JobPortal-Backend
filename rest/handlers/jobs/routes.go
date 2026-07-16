@@ -18,6 +18,8 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 		manager.With(
 			http.HandlerFunc(CreatePost),
 			middlewares.Authorization,
+			middlewares.RequireRole("employer"),
+			
 		),
 	)
 
@@ -26,6 +28,7 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 		manager.With(
 			http.HandlerFunc(UpdatePost),
 			middlewares.Authorization,
+			middlewares.RequireRole("employer"),
 		),
 	)
 
@@ -34,6 +37,7 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 		manager.With(
 			http.HandlerFunc(DeletePost),
 			middlewares.Authorization,
+			middlewares.RequireRole("employer"),
 		),
 	)
 }

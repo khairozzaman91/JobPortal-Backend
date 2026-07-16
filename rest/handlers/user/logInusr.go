@@ -38,6 +38,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 				FirstName: user.FirstName,
 				LastName:  user.LastName,
 				Email:     user.Email,
+				Role:      user.Role,
 			}
 
 			token, err := utils.CreateJwt(cfg.JWTSecret, claims)

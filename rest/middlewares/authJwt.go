@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/json"
@@ -17,6 +18,7 @@ type Claims struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Email     string `json:"email"`
+	Role      string `json:"role"`
 	Iat       int64  `json:"iat"`
 	Exp       int64  `json:"exp"`
 }
@@ -87,7 +89,8 @@ func Authorization(next http.Handler) http.Handler {
 			http.Error(w, "Unauthorized: Token expired", http.StatusUnauthorized)
 			return
 		}
+		ctx := context.WithValue(r.Context(), "user", claims)
 
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

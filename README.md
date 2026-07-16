@@ -197,11 +197,60 @@ Implemented a custom Middleware Manager to simplify middleware registration and 
 - Verified CORS preflight requests
 - Verified request logging for all incoming requests
 
+## (Update) Role Based Authorization (RBAC)
+
+Implemented role-based authorization using JWT.
+
+### What Changed
+
+- Added user role support.
+- Added role information inside JWT payload.
+- Created `RequireRole` middleware.
+- Protected job routes based on user roles.
+
+### Supported Roles
+
+- employer
+- jobseeker
+- admin
+
+
+### Authorization Flow
+
+
+Request
+|
+v
+Authorization Middleware
+|
+v
+JWT Verification
+|
+v
+Extract User Claims
+|
+v
+Role Checking Middleware
+|
+v
+Handler Access
+
+### Protected Routes
+
+Job creation, update, and delete routes now require authentication and role permission.
+
+
+### Testing
+
+Tested with Postman.
+
+- Employer token → Can access job management routes ✅
+- Jobseeker token → Access denied with 403 Forbidden ❌
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
 - PostgreSQL Integration
-- Role-Based Authorization (RBAC)
 - Job Application System
 - Rate Limiting
 - Refresh Token
