@@ -247,6 +247,36 @@ Tested with Postman.
 - Employer token → Can access job management routes ✅
 - Jobseeker token → Access denied with 403 Forbidden ❌
 
+
+### 🚀 Recent Updates
+- JWT Authentication
+- Implemented custom JWT authentication using HMAC SHA256.
+- Generated JWT token after successful user login.
+- Protected private routes using Authorization middleware.
+- Validated JWT signature and token expiration.
+- Role-Based Access Control (RBAC)
+
+### Implemented three user roles:
+
+- Admin
+- Employer
+- Jobseeker
+- Protected Routes
+- GET /users → Admin only
+- POST /jobs → Employer only
+- PUT /jobs/{id} → Employer only
+- DELETE /jobs/{id} → Employer only
+- Postman Testing
+
+### Successfully tested:
+
+- User Registration
+- User Login
+- JWT Authentication
+- Role-Based Authorization
+- Route Protection
+
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
