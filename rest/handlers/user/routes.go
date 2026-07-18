@@ -15,7 +15,11 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 
 	mux.Handle(
 		"GET /users",
-		http.HandlerFunc(GetUsers),
+		manager.With(
+			http.HandlerFunc(GetUsers),
+			middlewares.Authorization,
+			middlewares.RequireRole("admin"),
+		),
 	)
 
 	mux.Handle(
