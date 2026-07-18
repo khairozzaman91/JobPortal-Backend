@@ -3,7 +3,10 @@ package middlewares
 import "net/http"
 
 func RequireRole(roles ...string) Middleware {
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 	return func(next http.Handler) http.Handler {
 
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -15,6 +18,7 @@ func RequireRole(roles ...string) Middleware {
 				return
 			}
 
+<<<<<<< Updated upstream
 			allowed := false
 
 			for _, role := range roles {
@@ -31,6 +35,16 @@ func RequireRole(roles ...string) Middleware {
 			}
 
 			next.ServeHTTP(w, r)
+=======
+			for _, role := range roles {
+				if claims.Role == role {
+					next.ServeHTTP(w, r)
+					return
+				}
+			}
+
+			http.Error(w, "Forbidden", http.StatusForbidden)
+>>>>>>> Stashed changes
 		})
 	}
 }
