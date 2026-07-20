@@ -277,6 +277,16 @@ Tested with Postman.
 - Route Protection
 
 
+## Latest Update
+
+### Role-Based Job Creation
+
+- Added role-based access control for job creation.
+- Only **Admin** and **Employer** can create job posts.
+- **Jobseeker** users receive **403 Forbidden** when attempting to create jobs.
+- Automatically assign the logged-in user's ID to the `posted_by` field using JWT claims.
+- Protected the `POST /jobs` endpoint with Authorization and RequireRole middleware.
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
