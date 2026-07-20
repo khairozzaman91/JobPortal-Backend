@@ -6,6 +6,7 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -13,6 +14,13 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
 		utils.SendError(w, http.StatusMethodNotAllowed, "Method not allowed")
+		return
+	}
+
+	// Get logged-in user from Context
+	claims, ok := r.Context().Value("user").(middlewares.Claims)
+	if !ok {
+		utils.SendError(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
@@ -27,6 +35,9 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	// Generate Job ID
 	newJob.ID = uint(len(dto.JobList) + 1)
+
+	// Set Owner
+	newJob.PostedBy = uint(claims.Sub)
 
 	// Save Job
 	dto.JobList = append(dto.JobList, newJob)
