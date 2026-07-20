@@ -287,6 +287,14 @@ Tested with Postman.
 - Automatically assign the logged-in user's ID to the `posted_by` field using JWT claims.
 - Protected the `POST /jobs` endpoint with Authorization and RequireRole middleware.
 
+
+### Job Ownership
+
+- Added ownership validation for updating jobs.
+- Employers can update only their own jobs.
+- Admin can update any job.
+- Unauthorized updates return 403 Forbidden.
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
