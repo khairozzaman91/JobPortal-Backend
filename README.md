@@ -295,6 +295,20 @@ Tested with Postman.
 - Admin can update any job.
 - Unauthorized updates return 403 Forbidden.
 
+
+## Job Ownership Authorization
+
+### Features
+
+- Employers can create job posts.
+- The authenticated user is automatically assigned as the job owner (`posted_by`).
+- Employers can update only their own job posts.
+- Employers can delete only their own job posts.
+- Admin can update any job (current implementation).
+- Admin can delete any job.
+- Unauthorized update/delete requests return `403 Forbidden`.
+
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
