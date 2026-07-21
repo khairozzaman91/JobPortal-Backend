@@ -46,6 +46,11 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 	for i := range dto.JobList {
 		if dto.JobList[i].ID == uint(id) {
+				// Ownership Check
+		if dto.JobList[i].PostedBy != uint(claims.Sub) {
+			utils.SendError(w, http.StatusForbidden, "You can only update your own jobs")
+			return
+		}
 			dto.JobList[i].Title = updatelist.Title
 			dto.JobList[i].Description = updatelist.Description
 			dto.JobList[i].CompanyName = updatelist.CompanyName
