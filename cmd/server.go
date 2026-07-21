@@ -3,14 +3,24 @@ package cmd
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
+	"github.com/khairozzaman91/JobPortal-Backend/infra/postgres"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
 )
 
 func Server() {
+
+	// Database Connection
+	db, err := postgres.GetConnect()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer db.Close()
 
 	manager := middlewares.NewManager()
 
@@ -29,11 +39,11 @@ func Server() {
 
 	handler := manager.Wraper(mux)
 
-	fmt.Println("Server Running on port :8080")
-
 	port := fmt.Sprintf(":%d", cfg.HTTPPort)
 
-	err := http.ListenAndServe(port, handler)
+	fmt.Println("Server Running on", port)
+
+	err = http.ListenAndServe(port, handler)
 	if err != nil {
 		fmt.Println("Server failed to start:", err)
 		return
