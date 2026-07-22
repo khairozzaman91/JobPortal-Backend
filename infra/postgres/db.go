@@ -19,6 +19,6 @@ func GetConnect() (*sqlx.DB, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-
+    fmt.Println("Database Connected Successfully")
 	return db, nil
 }

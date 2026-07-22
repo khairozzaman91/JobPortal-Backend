@@ -21,7 +21,7 @@ func Server() {
 		os.Exit(1)
 	}
 	defer db.Close()
-
+	
 	manager := middlewares.NewManager()
 
 	mux := http.NewServeMux()
