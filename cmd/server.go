@@ -9,18 +9,17 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/infra/postgres"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
 type Server struct {
-	// all dependencey here
-	cnf  config.Config
+	cnf  *config.Config
 	jobHandler  *jobs.JobHandler
 	userHandler *user.UserHandler
 }
 
 func NewServer(
-	cnf config.Config,
+	cnf *config.Config,
 	jobHandler *jobs.JobHandler,
 	userHandler *user.UserHandler,
 ) *Server {

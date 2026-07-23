@@ -7,7 +7,7 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/dto"
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 

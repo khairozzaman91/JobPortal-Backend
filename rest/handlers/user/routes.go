@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
 func (h *UserHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
@@ -17,8 +17,8 @@ func (h *UserHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Ma
 		"GET /users",
 		manager.With(
 			http.HandlerFunc(h.GetUsers),
-			middlewares.Authorization,
-			middlewares.RequireRole("admin"),
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin"),
 		),
 	)
 

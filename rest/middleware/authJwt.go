@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khairozzaman91/JobPortal-Backend/config"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -23,7 +22,7 @@ type Claims struct {
 	Exp       int64  `json:"exp"`
 }
 
-func Authorization(next http.Handler) http.Handler {
+func (m *AuthMiddleware) Authorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		header := r.Header.Get("Authorization")
@@ -53,11 +52,9 @@ func Authorization(next http.Handler) http.Handler {
 		payloadPart := tokenParts[1]
 		signaturePart := tokenParts[2]
 
-		cfg := config.GetConfig()
-
 		signingInput := headerPart + "." + payloadPart
 
-		h := hmac.New(sha256.New, []byte(cfg.JWTSecret))
+		h := hmac.New(sha256.New, []byte(m.cnf.JWTSecret))
 		_, err := h.Write([]byte(signingInput))
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)

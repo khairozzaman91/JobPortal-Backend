@@ -1,7 +1,13 @@
 package jobs
 
-type JobHandler struct{}
+import middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 
-func NewJobHandler()*JobHandler{
-	return &JobHandler{}
+type JobHandler struct {
+	middlewares *middlewares.AuthMiddleware
+}
+
+func NewJobHandler(middlewares *middlewares.AuthMiddleware) *JobHandler {
+	return &JobHandler{
+		middlewares: middlewares,
+	}
 }

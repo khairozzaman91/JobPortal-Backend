@@ -3,10 +3,10 @@ package jobs
 import (
 	"net/http"
 
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
-func(h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
+func (h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 
 	mux.Handle(
 		"GET /jobs",
@@ -17,9 +17,8 @@ func(h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Mana
 		"POST /jobs",
 		manager.With(
 			http.HandlerFunc(h.CreatePost),
-			middlewares.Authorization,
-			middlewares.RequireRole("admin", "employer"),
-			
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin", "employer"),
 		),
 	)
 
@@ -27,8 +26,8 @@ func(h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Mana
 		"PUT /jobs/{id}",
 		manager.With(
 			http.HandlerFunc(h.UpdatePost),
-			middlewares.Authorization,
-			middlewares.RequireRole("admin", "employer"),
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin", "employer"),
 		),
 	)
 
@@ -36,8 +35,8 @@ func(h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Mana
 		"DELETE /jobs/{id}",
 		manager.With(
 			http.HandlerFunc(h.DeletePost),
-			middlewares.Authorization,
-			middlewares.RequireRole("admin", "employer"),
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin", "employer"),
 		),
 	)
 }

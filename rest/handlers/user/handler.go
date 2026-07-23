@@ -1,8 +1,13 @@
 package user
 
-type UserHandler struct{}
+import "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 
+type UserHandler struct {
+	middlewares middlewares.AuthMiddleware
+}
 
-func NewUserHandler() *UserHandler{
-	return &UserHandler{}
-} 
+func NewUserHandler(middlewares *middlewares.AuthMiddleware) *UserHandler {
+	return &UserHandler{
+        middlewares: *middlewares,
+	}
+}
