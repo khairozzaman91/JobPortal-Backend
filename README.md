@@ -309,6 +309,19 @@ Tested with Postman.
 - Unauthorized update/delete requests return `403 Forbidden`.
 
 
+## Refactor
+
+- Added `repository/` directory for Repository Pattern implementation.
+- Added `service/` directory for Business Logic layer.
+- Introduced `JobHandler` and `UserHandler` structs.
+- Added constructors (`NewJobHandler`, `NewUserHandler`).
+- Refactored job and user handlers from standalone functions to methods.
+- Moved route registration into handler structs.
+- Introduced `Server` struct and `NewServer()` constructor.
+- Injected application configuration into the server.
+- Centralized PostgreSQL connection in the server startup.
+- Improved project structure to prepare for Repository Pattern and Clean Architecture.
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)
