@@ -15,7 +15,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Login Handler Called")
 	var req LoginRequest
 

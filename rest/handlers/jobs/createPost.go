@@ -10,7 +10,7 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
-func CreatePost(w http.ResponseWriter, r *http.Request) {
+func (h *JobHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
 		utils.SendError(w, http.StatusMethodNotAllowed, "Method not allowed")

@@ -7,7 +7,7 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
-func GetUsers(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

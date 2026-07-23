@@ -12,7 +12,27 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
 )
 
-func Server() {
+type Server struct {
+	// all dependencey here
+	cnf  config.Config
+	jobHandler  *jobs.JobHandler
+	userHandler *user.UserHandler
+}
+
+func NewServer(
+	cnf config.Config,
+	jobHandler *jobs.JobHandler,
+	userHandler *user.UserHandler,
+) *Server {
+	return &Server{
+		cnf: cnf,
+		jobHandler:  jobHandler,
+		userHandler: userHandler,
+	}
+
+}
+
+func (server *Server) Start() {
 
 	// Database Connection
 	db, err := postgres.GetConnect()
@@ -21,12 +41,12 @@ func Server() {
 		os.Exit(1)
 	}
 	defer db.Close()
-	
+
 	manager := middlewares.NewManager()
 
 	mux := http.NewServeMux()
 
-	cfg := config.GetConfig()
+	
 
 	manager.Use(
 		middlewares.CORSMiddleware,
@@ -34,12 +54,12 @@ func Server() {
 	)
 
 	// Register Routes
-	jobs.RegisterRoutes(mux, manager)
-	user.RegisterRoutes(mux, manager)
+	server.jobHandler.RegisterRoutes(mux, manager)
+	server.userHandler.RegisterRoutes(mux, manager)
 
 	handler := manager.Wraper(mux)
 
-	port := fmt.Sprintf(":%d", cfg.HTTPPort)
+	port := fmt.Sprintf(":%d", server.cnf.HTTPPort)
 
 	fmt.Println("Server Running on", port)
 

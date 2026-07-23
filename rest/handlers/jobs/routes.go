@@ -6,17 +6,17 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/rest/middlewares"
 )
 
-func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
+func(h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 
 	mux.Handle(
 		"GET /jobs",
-		http.HandlerFunc(GetJobs),
+		http.HandlerFunc(h.GetJobs),
 	)
 
 	mux.Handle(
 		"POST /jobs",
 		manager.With(
-			http.HandlerFunc(CreatePost),
+			http.HandlerFunc(h.CreatePost),
 			middlewares.Authorization,
 			middlewares.RequireRole("admin", "employer"),
 			
@@ -26,7 +26,7 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 	mux.Handle(
 		"PUT /jobs/{id}",
 		manager.With(
-			http.HandlerFunc(UpdatePost),
+			http.HandlerFunc(h.UpdatePost),
 			middlewares.Authorization,
 			middlewares.RequireRole("admin", "employer"),
 		),
@@ -35,7 +35,7 @@ func RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
 	mux.Handle(
 		"DELETE /jobs/{id}",
 		manager.With(
-			http.HandlerFunc(DeletePost),
+			http.HandlerFunc(h.DeletePost),
 			middlewares.Authorization,
 			middlewares.RequireRole("admin", "employer"),
 		),

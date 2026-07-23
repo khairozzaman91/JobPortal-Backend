@@ -11,7 +11,7 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
-func UpdatePost(w http.ResponseWriter, r *http.Request) {
+func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPut {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
