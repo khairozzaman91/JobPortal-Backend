@@ -3,7 +3,7 @@ package jobs
 import (
 	"net/http"
 
-	"github.com/khairozzaman91/JobPortal-Backend/dto"
+	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -13,5 +13,5 @@ func (h *JobHandler) GetJobs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.SendData(w, dto.JobList, http.StatusOK)
+	utils.SendData(w, infra.List(), http.StatusOK)
 }

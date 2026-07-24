@@ -7,11 +7,11 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/infra"
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
-func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
+func (h *JobHandler) PatchPost(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
@@ -19,38 +19,59 @@ func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Logged-in user
 	claims, ok := r.Context().Value("user").(middlewares.Claims)
 	if !ok {
 		utils.SendError(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	// Existing job
 	job := infra.Get(id)
 	if job == nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
 	}
 
-	// Ownership check
 	if job.PostedBy != uint(claims.Sub) {
 		utils.SendError(w, http.StatusForbidden, "You can only update your own jobs")
 		return
 	}
 
-	var updatedJob domain.Job
+	var req domain.Job
 
-	if err := json.NewDecoder(r.Body).Decode(&updatedJob); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		utils.SendError(w, http.StatusBadRequest, "Give me valid json")
 		return
 	}
 
-	// Preserve immutable fields
-	updatedJob.ID = job.ID
-	updatedJob.PostedBy = job.PostedBy
+	if req.Title != "" {
+		job.Title = req.Title
+	}
 
-	infra.Update(updatedJob)
+	if req.Description != "" {
+		job.Description = req.Description
+	}
 
-	utils.SendData(w, updatedJob, http.StatusOK)
+	if req.CompanyName != "" {
+		job.CompanyName = req.CompanyName
+	}
+
+	if req.Location != "" {
+		job.Location = req.Location
+	}
+
+	if req.Salary != 0 {
+		job.Salary = req.Salary
+	}
+
+	if req.JobType != "" {
+		job.JobType = req.JobType
+	}
+
+	if req.ExperienceLevel != "" {
+		job.ExperienceLevel = req.ExperienceLevel
+	}
+
+	infra.Update(*job)
+
+	utils.SendData(w, job, http.StatusOK)
 }

@@ -3,7 +3,7 @@ package jobs
 import (
 	"net/http"
 
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
 func (h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
@@ -11,6 +11,11 @@ func (h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Man
 	mux.Handle(
 		"GET /jobs",
 		http.HandlerFunc(h.GetJobs),
+	)
+
+	mux.Handle(
+		"GET /jobs/{id}",
+		http.HandlerFunc(h.GetById),
 	)
 
 	mux.Handle(
@@ -32,11 +37,29 @@ func (h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Man
 	)
 
 	mux.Handle(
+		"PATCH /jobs/{id}",
+		manager.With(
+			http.HandlerFunc(h.PatchPost),
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin", "employer"),
+		),
+	)
+
+	mux.Handle(
 		"DELETE /jobs/{id}",
 		manager.With(
 			http.HandlerFunc(h.DeletePost),
 			h.middlewares.Authorization,
 			h.middlewares.RequireRole("admin", "employer"),
+		),
+	)
+
+	mux.Handle(
+		"DELETE /jobs",
+		manager.With(
+			http.HandlerFunc(h.DeleteAllPosts),
+			h.middlewares.Authorization,
+			h.middlewares.RequireRole("admin"),
 		),
 	)
 }
