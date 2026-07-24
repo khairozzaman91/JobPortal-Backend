@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
@@ -16,7 +15,6 @@ type LoginRequest struct {
 }
 
 func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Login Handler Called")
 	var req LoginRequest
 
 	decode := json.NewDecoder(r.Body)

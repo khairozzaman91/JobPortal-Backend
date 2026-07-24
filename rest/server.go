@@ -12,7 +12,6 @@ func Server() {
 	cnf := config.GetConfig()
 
 	authMiddleware := middlewares.NewAuthMiddleware(cnf)
-
 	jobHandler := jobs.NewJobHandler(authMiddleware)
 	userHandler := user.NewUserHandler(authMiddleware)
 
