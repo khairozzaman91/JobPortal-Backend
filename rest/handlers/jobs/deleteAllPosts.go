@@ -10,6 +10,5 @@ import (
 func (h *JobHandler) DeleteAllPosts(w http.ResponseWriter, r *http.Request) {
 
 	infra.DeleteAll()
-
 	utils.SendData(w, "All jobs deleted successfully", http.StatusOK)
 }

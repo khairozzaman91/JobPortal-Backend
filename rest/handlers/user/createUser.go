@@ -5,20 +5,16 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
+	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	var user domain.User
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		http.Error(w, "Give me valid json", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Give me valid json")
 		return
 	}
 
@@ -26,15 +22,11 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	switch user.Role {
 	case "admin", "employer", "jobseeker":
 	default:
-		http.Error(w, "Invalid role", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid role")
 		return
 	}
 
-	// ID Generate
-	user.ID = uint(len(domain.UserList) + 1)
-
-	// Append to list
-	domain.UserList = append(domain.UserList, &user)
+	user = infra.UserStore(user)
 
 	utils.SendData(w, user, http.StatusCreated)
 }

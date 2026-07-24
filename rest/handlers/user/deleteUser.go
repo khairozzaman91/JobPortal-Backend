@@ -29,7 +29,6 @@ func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Admin অথবা নিজের profile delete করতে পারবে
 	if claims.Role != "admin" && user.ID != uint(claims.Sub) {
 		utils.SendError(w, http.StatusForbidden, "You can only delete your own profile")
 		return

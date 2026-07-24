@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
-	"github.com/khairozzaman91/JobPortal-Backend/domain"
+	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -15,19 +15,17 @@ type LoginRequest struct {
 }
 
 func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
+
 	var req LoginRequest
 
-	decode := json.NewDecoder(r.Body)
-	err := decode.Decode(&req)
-
-	if err != nil {
-		http.Error(w, "Give me valid json", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		utils.SendError(w, http.StatusBadRequest, "Give me valid json")
 		return
 	}
 
 	cfg := config.GetConfig()
 
-	for _, user := range domain.UserList {
+	for _, user := range infra.UserList() {
 
 		if user.Email == req.Email && user.Password == req.Password {
 
@@ -41,7 +39,7 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 
 			token, err := utils.CreateJwt(cfg.JWTSecret, claims)
 			if err != nil {
-				http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+				utils.SendError(w, http.StatusInternalServerError, "Failed to generate token")
 				return
 			}
 

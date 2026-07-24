@@ -1,7 +1,5 @@
 package user
 
-package user
-
 import (
 	"encoding/json"
 	"net/http"
