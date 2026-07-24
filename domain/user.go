@@ -14,4 +14,3 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
-var UserList []*User
