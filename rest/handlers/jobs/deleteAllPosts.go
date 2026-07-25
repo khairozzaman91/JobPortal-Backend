@@ -8,7 +8,8 @@ import (
 
 func (h *JobHandler) DeleteAllPosts(w http.ResponseWriter, r *http.Request) {
 
-	err := h.repo.DeleteAll()
+	err := h.service.DeleteAll()
+	
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, err.Error())
 		return

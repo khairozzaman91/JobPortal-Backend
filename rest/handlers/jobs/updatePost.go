@@ -26,7 +26,7 @@ func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Existing job
-	job, err := h.repo.Get(id)
+	job, err := h.service.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
@@ -49,7 +49,7 @@ func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	updatedJob.ID = job.ID
 	updatedJob.PostedBy = job.PostedBy
 
-	updated, err := h.repo.Update(updatedJob)
+	updated, err := h.service.Update(updatedJob)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return

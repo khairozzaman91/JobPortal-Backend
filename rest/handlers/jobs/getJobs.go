@@ -7,7 +7,7 @@ import (
 )
 
 func (h *JobHandler) GetJobs(w http.ResponseWriter, r *http.Request) {
-	jobs, err := h.repo.List()
+	jobs, err := h.service.List()
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, err.Error())
 		return

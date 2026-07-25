@@ -7,15 +7,20 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	"github.com/khairozzaman91/JobPortal-Backend/service"
 )
 
 func Server() {
 	cnf := config.GetConfig()
 
 	authMiddleware := middlewares.NewAuthMiddleware(cnf)
+
 	jobRepo := infra.NewJobRepository()
 	userRepo := infra.NewUserRepository()
-	jobHandler := jobs.NewJobHandler(jobRepo, authMiddleware)
+
+	jobService := service.NewJobService(jobRepo)
+	
+	jobHandler := jobs.NewJobHandler(jobService, authMiddleware)
 	userHandler := user.NewUserHandler(userRepo, authMiddleware)
 
 	server := cmd.NewServer(cnf, jobHandler, userHandler)
