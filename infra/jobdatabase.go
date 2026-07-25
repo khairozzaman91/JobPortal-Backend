@@ -4,57 +4,58 @@ import (
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 )
 
-var jobList []domain.Job
-
-func Store(j domain.Job) domain.Job {
-	j.ID = uint(len(jobList) + 1)
-	jobList = append(jobList, j)
-	return j
+func (r *JobRepository) Store(j domain.Job) (domain.Job, error) {
+	j.ID = uint(len(r.jobList) + 1)
+	r.jobList = append(r.jobList, j)
+	return j, nil
 }
 
-func List() []domain.Job {
-	return jobList
+func (r *JobRepository) List() ([]domain.Job, error) {
+	return r.jobList, nil
 }
 
-func Get(jobId int) *domain.Job {
+func (r *JobRepository) Get(jobId int) (*domain.Job, error){
 	// TODO: Refactor to return original slice element using index.
 	// Current implementation returns pointer to range variable.
-	for _, job := range jobList {
+	for _, job := range r.jobList {
 		if job.ID == uint(jobId) {
-			return &job
+			return &job,nil
 		}
 	}
-	return nil
+	return nil,nil
 }
 
-func Update(job domain.Job) {
-	for idx, j := range jobList {
-		if j.ID == uint(job.ID) {
-			jobList[idx] = job
-			return
+func (r *JobRepository) Update(job domain.Job) (domain.Job, error) {
+	for idx, j := range r.jobList {
+		if j.ID == job.ID {
+			r.jobList[idx] = job
+			return job, nil
 		}
 	}
+
+	return domain.Job{}, nil
 }
 
-
-func Delete(jobID uint) {
+func (r *JobRepository) Delete(jobID uint) error {
 	var tempList []domain.Job
 
-	for _, job := range jobList {
+	for _, job := range r.jobList {
 		if job.ID != jobID {
 			tempList = append(tempList, job)
 		}
 	}
 
-	jobList = tempList
+	r.jobList = tempList
+	return nil
+}
+
+func (r *JobRepository) DeleteAll() error {
+	r.jobList = nil
+	return nil
 }
 
 
-func DeleteAll() {
-	jobList = nil
-}
-
-func init() {
+func GenerateInitPost(r *JobRepository) {
 
 	job1 := domain.Job{
 		ID:              1,
@@ -185,14 +186,14 @@ func init() {
 		IsActive:        true,
 	}
 
-	jobList = append(jobList, job1)
-	jobList = append(jobList, job2)
-	jobList = append(jobList, job3)
-	jobList = append(jobList, job4)
-	jobList = append(jobList, job5)
-	jobList = append(jobList, job6)
-	jobList = append(jobList, job7)
-	jobList = append(jobList, job8)
-	jobList = append(jobList, job9)
-	jobList = append(jobList, job10)
+	r.jobList = append(r.jobList, job1)
+	r.jobList = append(r.jobList, job2)
+	r.jobList = append(r.jobList, job3)
+	r.jobList = append(r.jobList, job4)
+	r.jobList = append(r.jobList, job5)
+	r.jobList = append(r.jobList, job6)
+	r.jobList = append(r.jobList, job7)
+	r.jobList = append(r.jobList, job8)
+	r.jobList = append(r.jobList, job9)
+	r.jobList = append(r.jobList, job10)
 }

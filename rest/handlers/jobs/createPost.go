@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
@@ -29,7 +28,11 @@ func (h *JobHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	newJob.PostedBy = uint(claims.Sub)
 
 	// Save Job
-	infra.Store(newJob)
+	job, err := h.repo.Store(newJob)
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	utils.SendData(w, newJob, http.StatusCreated)
+	utils.SendData(w, job, http.StatusCreated)
 }
