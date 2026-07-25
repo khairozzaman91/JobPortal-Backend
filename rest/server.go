@@ -14,8 +14,9 @@ func Server() {
 
 	authMiddleware := middlewares.NewAuthMiddleware(cnf)
 	jobRepo := infra.NewJobRepository()
+	userRepo := infra.NewUserRepository()
 	jobHandler := jobs.NewJobHandler(jobRepo, authMiddleware)
-	userHandler := user.NewUserHandler(authMiddleware)
+	userHandler := user.NewUserHandler(userRepo, authMiddleware)
 
 	server := cmd.NewServer(cnf, jobHandler, userHandler)
 	server.Start()

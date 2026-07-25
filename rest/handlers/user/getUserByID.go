@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -16,8 +15,8 @@ func (h *UserHandler) GetUserByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := infra.UserGet(id)
-	if user == nil {
+	user, err := h.repo.Get(id)
+	if err != nil || user == nil {
 		utils.SendError(w, http.StatusNotFound, "User not found")
 		return
 	}

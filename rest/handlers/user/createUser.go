@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -26,7 +25,11 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user = infra.UserStore(user)
+	user, err := h.repo.Store(user)
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to create user")
+		return
+	}
 
 	utils.SendData(w, user, http.StatusCreated)
 }
