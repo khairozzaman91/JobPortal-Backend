@@ -22,7 +22,7 @@ func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.repo.Get(id)
+	user, err := h.service.Get(id)
 	if err != nil || user == nil {
 		utils.SendError(w, http.StatusNotFound, "User not found")
 		return
@@ -33,7 +33,7 @@ func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.repo.Delete(user.ID)
+	err = h.service.Delete(user.ID)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to delete user")
 		return

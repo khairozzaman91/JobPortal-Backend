@@ -355,6 +355,44 @@ HTTP Request
  In-Memory Repository
 ```
 
+🚀 Service Layer (Job Module)
+Overview
+
+A Service Layer has been introduced between the Handler and Repository to improve the project's architecture and maintain a clear separation of responsibilities.
+
+What Changed
+Added JobService interface.
+Added JobService implementation.
+Refactored JobHandler to communicate with the service layer instead of accessing the repository directly.
+Repository remains responsible only for data access.
+Service layer is ready for future business logic and validations.
+Current Request Flow
+HTTP Request
+      │
+      ▼
+Job Handler
+      │
+      ▼
+Job Service
+      │
+      ▼
+Job Repository
+      │
+      ▼
+In-Memory Storage
+Benefits
+Clear separation of concerns.
+Easier to maintain and extend.
+Business logic can be added without modifying handlers.
+Makes future PostgreSQL integration straightforward by replacing only the repository implementation.
+Current Progress
+✅ Repository Layer
+✅ Job Service Layer
+⏳ User Service Layer
+⏳ PostgreSQL Integration
+⏳ Authentication Improvements
+⏳ Business Logic & Validation
+
 
 # Next Development Steps
 

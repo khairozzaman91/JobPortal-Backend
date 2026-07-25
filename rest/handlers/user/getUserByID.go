@@ -15,7 +15,7 @@ func (h *UserHandler) GetUserByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.repo.Get(id)
+	user, err := h.service.Get(id)
 	if err != nil || user == nil {
 		utils.SendError(w, http.StatusNotFound, "User not found")
 		return

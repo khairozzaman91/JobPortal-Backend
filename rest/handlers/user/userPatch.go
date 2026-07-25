@@ -25,12 +25,13 @@ func (h *UserHandler) PatchUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.repo.Get(id)
+	user, err := h.service.Get(id)
 	if err != nil || user == nil {
 		utils.SendError(w, http.StatusNotFound, "User not found")
 		return
 	}
 
+	// Authorization Check
 	if claims.Role != "admin" && user.ID != uint(claims.Sub) {
 		utils.SendError(w, http.StatusForbidden, "You can only update your own profile")
 		return
@@ -43,6 +44,7 @@ func (h *UserHandler) PatchUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Partial Update
 	if req.FirstName != "" {
 		user.FirstName = req.FirstName
 	}
@@ -69,11 +71,11 @@ func (h *UserHandler) PatchUser(w http.ResponseWriter, r *http.Request) {
 
 	user.UpdatedAt = time.Now()
 
-	_, err = h.repo.Update(*user)
+	updatedUser, err := h.service.Update(*user)
 	if err != nil {
-		utils.SendError(w, http.StatusNotFound, "User not found")
+		utils.SendError(w, http.StatusInternalServerError, "Failed to update user")
 		return
 	}
 
-	utils.SendData(w, user, http.StatusOK)
+	utils.SendData(w, updatedUser, http.StatusOK)
 }

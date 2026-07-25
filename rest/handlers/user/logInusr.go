@@ -22,36 +22,27 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cfg := config.GetConfig()
-
-	users, err := h.repo.List()
+	user, err := h.service.Login(req.Email, req.Password)
 	if err != nil {
-		utils.SendError(w, http.StatusInternalServerError, "Failed to get users")
+		utils.SendError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
 
-	for _, user := range users {
+	cfg := config.GetConfig()
 
-		if user.Email == req.Email && user.Password == req.Password {
-
-			claims := utils.Payload{
-				Sub:       int(user.ID),
-				FirstName: user.FirstName,
-				LastName:  user.LastName,
-				Email:     user.Email,
-				Role:      user.Role,
-			}
-
-			token, err := utils.CreateJwt(cfg.JWTSecret, claims)
-			if err != nil {
-				utils.SendError(w, http.StatusInternalServerError, "Failed to generate token")
-				return
-			}
-
-			utils.SendData(w, token, http.StatusOK)
-			return
-		}
+	claims := utils.Payload{
+		Sub:       int(user.ID),
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Role:      user.Role,
 	}
 
-	utils.SendError(w, http.StatusUnauthorized, "Invalid email or password")
+	token, err := utils.CreateJwt(cfg.JWTSecret, claims)
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to generate token")
+		return
+	}
+
+	utils.SendData(w, token, http.StatusOK)
 }

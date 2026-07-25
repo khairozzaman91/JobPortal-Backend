@@ -25,7 +25,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.repo.Store(user)
+	user, err := h.service.Store(user)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to create user")
 		return
