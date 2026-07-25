@@ -1,18 +1,18 @@
 package user
 
 import (
-	"github.com/khairozzaman91/JobPortal-Backend/repository"
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	"github.com/khairozzaman91/JobPortal-Backend/service"
 )
 
 type UserHandler struct {
-	repo        repository.UserRepository
+	service     service.UserService
 	middlewares *middlewares.AuthMiddleware
 }
 
-func NewUserHandler(repo repository.UserRepository, middlewares *middlewares.AuthMiddleware) *UserHandler {
+func NewUserHandler(service service.UserService, middlewares *middlewares.AuthMiddleware) *UserHandler {
 	return &UserHandler{
-		repo:        repo,
+		service:     service,
 		middlewares: middlewares,
 	}
 }

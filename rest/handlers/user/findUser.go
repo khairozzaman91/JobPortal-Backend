@@ -8,7 +8,7 @@ import (
 
 func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
-	users, err := h.repo.List()
+	users, err := h.service.List()
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to get users")
 		return

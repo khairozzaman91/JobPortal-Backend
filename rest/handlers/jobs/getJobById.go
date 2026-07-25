@@ -15,7 +15,7 @@ func (h *JobHandler) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job, err := h.repo.Get(id)
+	job, err := h.service.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return

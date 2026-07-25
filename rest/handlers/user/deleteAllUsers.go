@@ -20,9 +20,9 @@ func (h *UserHandler) DeleteAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.repo.DeleteAll()
+	err := h.service.DeleteAll()
 	if err != nil {
-		utils.SendError(w, http.StatusInternalServerError, "Failed to delete users")
+		utils.SendError(w, http.StatusInternalServerError, "Failed to delete all users")
 		return
 	}
 

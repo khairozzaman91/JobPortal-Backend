@@ -22,7 +22,7 @@ func (h *JobHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job, err := h.repo.Get(id)
+	job, err := h.service.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
@@ -34,7 +34,7 @@ func (h *JobHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.repo.Delete(job.ID)
+	err = h.service.Delete(job.ID)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return

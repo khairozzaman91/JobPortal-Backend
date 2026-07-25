@@ -1,18 +1,18 @@
 package jobs
 
-import(
-	"github.com/khairozzaman91/JobPortal-Backend/repository"
-	 middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+import (
+	"github.com/khairozzaman91/JobPortal-Backend/service"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
 type JobHandler struct {
-	repo        repository.JobRepository
+	service     service.JobService
 	middlewares *middlewares.AuthMiddleware
 }
 
-func NewJobHandler(repo repository.JobRepository, middlewares *middlewares.AuthMiddleware) *JobHandler {
+func NewJobHandler(service service.JobService, middlewares *middlewares.AuthMiddleware) *JobHandler {
 	return &JobHandler{
-        repo: repo,
+		service:     service,
 		middlewares: middlewares,
 	}
 }

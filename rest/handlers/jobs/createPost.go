@@ -28,7 +28,7 @@ func (h *JobHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	newJob.PostedBy = uint(claims.Sub)
 
 	// Save Job
-	job, err := h.repo.Store(newJob)
+	job, err := h.service.Store(newJob)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, err.Error())
 		return

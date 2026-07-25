@@ -24,7 +24,7 @@ func (h *JobHandler) PatchPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job, err := h.repo.Get(id)
+	job, err := h.service.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
@@ -70,7 +70,7 @@ func (h *JobHandler) PatchPost(w http.ResponseWriter, r *http.Request) {
 		job.ExperienceLevel = req.ExperienceLevel
 	}
 
-	updatedJob, err := h.repo.Update(*job)
+	updatedJob, err := h.service.Update(*job)
 	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
