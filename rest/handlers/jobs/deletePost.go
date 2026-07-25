@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
@@ -23,8 +22,8 @@ func (h *JobHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job := infra.Get(id)
-	if job == nil {
+	job, err := h.repo.Get(id)
+	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
 	}
@@ -35,7 +34,11 @@ func (h *JobHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	infra.Delete(job.ID)
+	err = h.repo.Delete(job.ID)
+	if err != nil {
+		utils.SendError(w, http.StatusNotFound, "Job not found")
+		return
+	}
 
 	utils.SendData(w, "Successfully deleted job", http.StatusOK)
 }

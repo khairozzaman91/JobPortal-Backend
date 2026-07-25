@@ -322,6 +322,40 @@ Tested with Postman.
 - Centralized PostgreSQL connection in the server startup.
 - Improved project structure to prepare for Repository Pattern and Clean Architecture.
 
+
+## 🚀 Repository Pattern Refactor
+
+### ✅ Completed
+
+* Introduced the `JobRepository` interface to decouple business logic from data storage.
+* Implemented an in-memory `JobRepository`.
+* Applied Dependency Injection (DI) by injecting the repository into the `JobHandler`.
+* Refactored all Job CRUD handlers to use the repository instead of directly accessing the infrastructure layer.
+* Added proper error handling to repository methods.
+* Initialized in-memory seed data through the repository.
+
+### 🔄 Current Status
+
+* Job Repository Pattern is completed.
+* User Repository Pattern is the next task.
+* Service Layer implementation will begin after completing the repository layer.
+
+### 📌 Architecture
+
+```text
+HTTP Request
+      │
+      ▼
+ Job Handler
+      │
+      ▼
+ Job Repository (Interface)
+      │
+      ▼
+ In-Memory Repository
+```
+
+
 # Next Development Steps
 
 - Password Hashing (bcrypt)

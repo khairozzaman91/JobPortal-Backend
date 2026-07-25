@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -21,7 +20,11 @@ func (h *UserHandler) DeleteAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	infra.UserDeleteAll()
+	err := h.repo.DeleteAll()
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to delete users")
+		return
+	}
 
 	utils.SendData(w, "All users deleted successfully", http.StatusOK)
 }

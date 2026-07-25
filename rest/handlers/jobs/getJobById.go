@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -16,8 +15,8 @@ func (h *JobHandler) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job := infra.Get(id)
-	if job == nil {
+	job, err := h.repo.Get(id)
+	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
 	}

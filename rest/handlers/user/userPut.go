@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
@@ -26,8 +25,8 @@ func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := infra.UserGet(id)
-	if user == nil {
+	user, err := h.repo.Get(id)
+	if err != nil || user == nil {
 		utils.SendError(w, http.StatusNotFound, "User not found")
 		return
 	}
@@ -48,7 +47,11 @@ func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	updatedUser.CreatedAt = user.CreatedAt
 	updatedUser.UpdatedAt = time.Now()
 
-	infra.UserUpdate(updatedUser)
+	_, err = h.repo.Update(updatedUser)
+	if err != nil {
+		utils.SendError(w, http.StatusNotFound, "User not found")
+		return
+	}
 
 	utils.SendData(w, updatedUser, http.StatusOK)
 }

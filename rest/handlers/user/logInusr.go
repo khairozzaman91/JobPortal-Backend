@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -25,7 +24,13 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	cfg := config.GetConfig()
 
-	for _, user := range infra.UserList() {
+	users, err := h.repo.List()
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to get users")
+		return
+	}
+
+	for _, user := range users {
 
 		if user.Email == req.Email && user.Password == req.Password {
 

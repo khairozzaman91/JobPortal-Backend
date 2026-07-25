@@ -6,8 +6,7 @@ import (
 	"strconv"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
-	"github.com/khairozzaman91/JobPortal-Backend/infra"
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -27,8 +26,8 @@ func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Existing job
-	job := infra.Get(id)
-	if job == nil {
+	job, err := h.repo.Get(id)
+	if err != nil {
 		utils.SendError(w, http.StatusNotFound, "Job not found")
 		return
 	}
@@ -50,7 +49,11 @@ func (h *JobHandler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	updatedJob.ID = job.ID
 	updatedJob.PostedBy = job.PostedBy
 
-	infra.Update(updatedJob)
+	updated, err := h.repo.Update(updatedJob)
+	if err != nil {
+		utils.SendError(w, http.StatusNotFound, "Job not found")
+		return
+	}
 
-	utils.SendData(w, updatedJob, http.StatusOK)
+	utils.SendData(w, updated, http.StatusOK)
 }
