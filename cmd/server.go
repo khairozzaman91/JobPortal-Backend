@@ -56,7 +56,7 @@ func (server *Server) Start() {
 	server.jobHandler.RegisterRoutes(mux, manager)
 	server.userHandler.RegisterRoutes(mux, manager)
 
-	handler := manager.Wraper(mux)
+	handler := manager.Wrapper(mux)
 
 	port := fmt.Sprintf(":%d", server.cnf.HTTPPort)
 

@@ -18,7 +18,7 @@ func (m *Manager) Use(mws ...Middlewares) {
 	m.middlewares = append(m.middlewares, mws...)
 }
 
-func (m *Manager) Wraper(next http.Handler) http.Handler {
+func (m *Manager) Wrapper(next http.Handler) http.Handler {
 	n := next
 	for i := len(m.middlewares) - 1; i >= 0; i-- {
 		middleware := m.middlewares[i]
