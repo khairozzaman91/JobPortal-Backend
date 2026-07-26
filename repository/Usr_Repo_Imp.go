@@ -2,6 +2,35 @@ package repository
 
 import "github.com/khairozzaman91/JobPortal-Backend/domain"
 
+
+
+func (r *UserRepositoryImpl) GetByEmail(email string) (*domain.User, error) {
+
+	query := `
+		SELECT
+			id,
+			first_name,
+			last_name,
+			email,
+			password,
+			phone,
+			role,
+			created_at,
+			updated_at
+		FROM users
+		WHERE email = $1;
+	`
+
+	var user domain.User
+
+	err := r.db.Get(&user, query, email)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 func (r *UserRepositoryImpl) Store(user domain.User) (domain.User, error) {
 
 	query := `

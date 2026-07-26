@@ -6,6 +6,7 @@ import (
 )
 
 type UserRepository interface {
+	GetByEmail(email string) (*domain.User, error)
 	Store(user domain.User) (domain.User, error)
 	List() ([]domain.User, error)
 	Get(id int) (*domain.User, error)
