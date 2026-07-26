@@ -17,7 +17,7 @@ func Server() {
 	cnf := config.GetConfig()
 
 	// Database Connection
-	db, err := postgres.GetConnect()
+	db, err := postgres.NewConnection(cnf)
 	if err != nil {
 		log.Fatal(err)
 	}
