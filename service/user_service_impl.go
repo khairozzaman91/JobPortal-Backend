@@ -5,6 +5,7 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 	"github.com/khairozzaman91/JobPortal-Backend/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserServiceImpl struct {
@@ -24,7 +25,11 @@ func (s *UserServiceImpl) Login(email, password string) (*domain.User, error) {
 		return nil, errors.New("invalid email or password")
 	}
 
-	if user.Password != password {
+	err = bcrypt.CompareHashAndPassword(
+		[]byte(user.Password),
+		[]byte(password),
+	)
+	if err != nil {
 		return nil, errors.New("invalid email or password")
 	}
 
@@ -32,6 +37,17 @@ func (s *UserServiceImpl) Login(email, password string) (*domain.User, error) {
 }
 
 func (s *UserServiceImpl) Store(user domain.User) (domain.User, error) {
+
+	hashedPassword, err := bcrypt.GenerateFromPassword(
+		[]byte(user.Password),
+		bcrypt.DefaultCost,
+	)
+	if err != nil {
+		return domain.User{}, err
+	}
+
+	user.Password = string(hashedPassword)
+
 	return s.repo.Store(user)
 }
 
