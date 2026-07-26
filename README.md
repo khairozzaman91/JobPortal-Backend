@@ -393,6 +393,31 @@ Current Progress
 ⏳ Authentication Improvements
 ⏳ Business Logic & Validation
 
+## Latest Update
+
+### User Repository Migration (SQLX)
+
+The User Repository has been migrated from an in-memory slice to PostgreSQL using SQLX.
+
+### Completed
+
+- Connected PostgreSQL using SQLX
+- Repository constructor now accepts `*sqlx.DB`
+- Migrated User CRUD operations to SQL queries:
+  - Create User
+  - Get All Users
+  - Get User By ID
+  - Update User
+  - Delete User
+  - Delete All Users
+- Removed in-memory storage dependency for UserRepository
+
+### Current Status
+
+- ✅ User Repository (SQLX)
+- 🚧 Job Repository (In Progress)
+- 🚧 Database-based Login (Coming Next)
+- 🚧 Password Hashing (bcrypt)
 
 # Next Development Steps
 
