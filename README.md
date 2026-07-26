@@ -419,6 +419,23 @@ The User Repository has been migrated from an in-memory slice to PostgreSQL usin
 - 🚧 Database-based Login (Coming Next)
 - 🚧 Password Hashing (bcrypt)
 
+
+## Summary
+
+- Migrated JobRepository from in-memory storage to PostgreSQL using SQLX.
+- Removed in-memory `jobList` and `GenerateInitPost()`.
+- Implemented SQL-based CRUD operations:
+  - Store
+  - List
+  - Get
+  - Update
+  - Delete
+  - DeleteAll
+
+## Notes
+
+- UserRepository has already been migrated to SQLX.
+- Login is still using the in-memory user list and will be migrated in the next update.
 # Next Development Steps
 
 - Password Hashing (bcrypt)
