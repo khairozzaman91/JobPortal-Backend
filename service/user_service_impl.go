@@ -19,18 +19,16 @@ func NewUserService(repo repository.UserRepository) *UserServiceImpl {
 
 func (s *UserServiceImpl) Login(email, password string) (*domain.User, error) {
 
-	users, err := s.repo.List()
+	user, err := s.repo.GetByEmail(email)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid email or password")
 	}
 
-	for _, user := range users {
-		if user.Email == email && user.Password == password {
-			return &user, nil
-		}
+	if user.Password != password {
+		return nil, errors.New("invalid email or password")
 	}
 
-	return nil, errors.New("invalid email or password")
+	return user, nil
 }
 
 func (s *UserServiceImpl) Store(user domain.User) (domain.User, error) {
