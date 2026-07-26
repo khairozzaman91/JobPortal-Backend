@@ -15,16 +15,11 @@ type JobRepository interface {
 }
 
 type JobRepositoryImpl struct {
-	db      *sqlx.DB
-	jobList []domain.Job
+	db *sqlx.DB
 }
 
 func NewJobRepository(db *sqlx.DB) JobRepository {
-	repo := &JobRepositoryImpl{
+	return &JobRepositoryImpl{
 		db: db,
 	}
-
-	GenerateInitPost(repo)
-
-	return repo
 }
