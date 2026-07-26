@@ -1,6 +1,9 @@
 package repository
 
-import "github.com/khairozzaman91/JobPortal-Backend/domain"
+import (
+	"github.com/jmoiron/sqlx"
+	"github.com/khairozzaman91/JobPortal-Backend/domain"
+)
 
 type UserRepository interface {
 	Store(user domain.User) (domain.User, error)
@@ -9,4 +12,14 @@ type UserRepository interface {
 	Update(user domain.User) (domain.User, error)
 	Delete(id uint) error
 	DeleteAll() error
+}
+
+type UserRepositoryImpl struct {
+	db       *sqlx.DB
+}
+
+func NewUserRepository(db *sqlx.DB) UserRepository {
+	return &UserRepositoryImpl{
+		db: db,
+	}
 }

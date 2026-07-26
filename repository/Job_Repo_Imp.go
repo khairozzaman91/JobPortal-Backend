@@ -1,31 +1,32 @@
-package infra
+package repository
 
 import (
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
 )
 
-func (r *JobRepository) Store(j domain.Job) (domain.Job, error) {
+func (r *JobRepositoryImpl) Store(j domain.Job) (domain.Job, error) {
 	j.ID = uint(len(r.jobList) + 1)
 	r.jobList = append(r.jobList, j)
 	return j, nil
 }
 
-func (r *JobRepository) List() ([]domain.Job, error) {
+func (r *JobRepositoryImpl) List() ([]domain.Job, error) {
 	return r.jobList, nil
 }
 
-func (r *JobRepository) Get(jobId int) (*domain.Job, error){
+func (r *JobRepositoryImpl) Get(jobID int) (*domain.Job, error) {
 	// TODO: Refactor to return original slice element using index.
 	// Current implementation returns pointer to range variable.
 	for _, job := range r.jobList {
-		if job.ID == uint(jobId) {
-			return &job,nil
+		if job.ID == uint(jobID) {
+			return &job, nil
 		}
 	}
-	return nil,nil
+
+	return nil, nil
 }
 
-func (r *JobRepository) Update(job domain.Job) (domain.Job, error) {
+func (r *JobRepositoryImpl) Update(job domain.Job) (domain.Job, error) {
 	for idx, j := range r.jobList {
 		if j.ID == job.ID {
 			r.jobList[idx] = job
@@ -36,7 +37,7 @@ func (r *JobRepository) Update(job domain.Job) (domain.Job, error) {
 	return domain.Job{}, nil
 }
 
-func (r *JobRepository) Delete(jobID uint) error {
+func (r *JobRepositoryImpl) Delete(jobID uint) error {
 	var tempList []domain.Job
 
 	for _, job := range r.jobList {
@@ -49,13 +50,12 @@ func (r *JobRepository) Delete(jobID uint) error {
 	return nil
 }
 
-func (r *JobRepository) DeleteAll() error {
+func (r *JobRepositoryImpl) DeleteAll() error {
 	r.jobList = nil
 	return nil
 }
 
-
-func GenerateInitPost(r *JobRepository) {
+func GenerateInitPost(r *JobRepositoryImpl) {
 
 	job1 := domain.Job{
 		ID:              1,
@@ -69,6 +69,7 @@ func GenerateInitPost(r *JobRepository) {
 		PostedBy:        1,
 		IsActive:        true,
 	}
+
 	job2 := domain.Job{
 		ID:              2,
 		Title:           "Junior Backend Developer",
@@ -186,14 +187,8 @@ func GenerateInitPost(r *JobRepository) {
 		IsActive:        true,
 	}
 
-	r.jobList = append(r.jobList, job1)
-	r.jobList = append(r.jobList, job2)
-	r.jobList = append(r.jobList, job3)
-	r.jobList = append(r.jobList, job4)
-	r.jobList = append(r.jobList, job5)
-	r.jobList = append(r.jobList, job6)
-	r.jobList = append(r.jobList, job7)
-	r.jobList = append(r.jobList, job8)
-	r.jobList = append(r.jobList, job9)
-	r.jobList = append(r.jobList, job10)
+	r.jobList = append(r.jobList,
+		job1, job2, job3, job4, job5,
+		job6, job7, job8, job9, job10,
+	)
 }
