@@ -453,10 +453,19 @@ Implemented a dedicated Job Seeker Profile module that allows authenticated job 
 - Layered architecture (Handler → Service → Repository)
 - PostgreSQL integration using sqlx
 
+## 🔐 Password Security
+
+Implemented secure password hashing using **bcrypt**.
+
+### Features
+
+- Passwords are hashed before storing in the database
+- Plain text passwords are never stored
+- Password verification is performed using bcrypt during login
+- Improved authentication security
+
 # Next Development Steps
 
-- Password Hashing (bcrypt)
-- PostgreSQL Integration
 - Job Application System
 - Rate Limiting
 - Refresh Token
