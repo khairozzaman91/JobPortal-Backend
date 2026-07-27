@@ -6,25 +6,29 @@ import (
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
+	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobseeker"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/user"
-	"github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
 type Server struct {
-	cnf         *config.Config
-	jobHandler  *jobs.JobHandler
-	userHandler *user.UserHandler
+	cnf              *config.Config
+	jobHandler       *jobs.JobHandler
+	userHandler      *user.UserHandler
+	jobSeekerHandler *jobseeker.JobSeekerHandler
 }
 
 func NewServer(
 	cnf *config.Config,
 	jobHandler *jobs.JobHandler,
 	userHandler *user.UserHandler,
+	jobSeekerHandler *jobseeker.JobSeekerHandler,
 ) *Server {
 	return &Server{
-		cnf:         cnf,
-		jobHandler:  jobHandler,
-		userHandler: userHandler,
+		cnf:              cnf,
+		jobHandler:       jobHandler,
+		userHandler:      userHandler,
+		jobSeekerHandler: jobSeekerHandler,
 	}
 }
 
@@ -42,6 +46,7 @@ func (server *Server) Start() {
 	// Register Routes
 	server.jobHandler.RegisterRoutes(mux, manager)
 	server.userHandler.RegisterRoutes(mux, manager)
+	server.jobSeekerHandler.RegisterRoutes(mux, manager)
 
 	handler := manager.Wrapper(mux)
 
