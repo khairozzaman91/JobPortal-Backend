@@ -436,10 +436,36 @@ The User Repository has been migrated from an in-memory slice to PostgreSQL usin
 
 - UserRepository has already been migrated to SQLX.
 - Login is still using the in-memory user list and will be migrated in the next update.
+
+
+## Job Seeker Profile
+
+Implemented a dedicated Job Seeker Profile module that allows authenticated job seekers to manage their personal and professional information.
+
+### Features
+
+- Create a job seeker profile
+- View profile information
+- Update profile details
+- Delete profile
+- JWT-based authentication for secure profile access
+- User identity is automatically retrieved from the JWT token
+- Layered architecture (Handler → Service → Repository)
+- PostgreSQL integration using sqlx
+
+## 🔐 Password Security
+
+Implemented secure password hashing using **bcrypt**.
+
+### Features
+
+- Passwords are hashed before storing in the database
+- Plain text passwords are never stored
+- Password verification is performed using bcrypt during login
+- Improved authentication security
+
 # Next Development Steps
 
-- Password Hashing (bcrypt)
-- PostgreSQL Integration
 - Job Application System
 - Rate Limiting
 - Refresh Token
