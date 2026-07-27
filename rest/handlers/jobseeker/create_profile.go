@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/khairozzaman91/JobPortal-Backend/domain"
+	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 	"github.com/khairozzaman91/JobPortal-Backend/utils"
 )
 
@@ -18,6 +19,11 @@ func (h *JobSeekerHandler) CreateProfile(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	// Get authenticated user from JWT
+	claims := r.Context().Value("user").(middlewares.Claims)
+	profile.UserID = uint(claims.Sub)
+
+	// Save profile
 	profile, err = h.service.Store(profile)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, err.Error())

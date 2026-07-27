@@ -1,9 +1,14 @@
 package repository
 
-import "github.com/khairozzaman91/JobPortal-Backend/domain"
+import (
+	"fmt"
+
+	"github.com/khairozzaman91/JobPortal-Backend/domain"
+)
 
 func (r *JobSeekerRepositoryImpl) Store(profile domain.JobSeekerProfile) (domain.JobSeekerProfile, error) {
 
+	fmt.Println("UserID:", profile.UserID)
 	query := `
 		INSERT INTO job_seeker_profiles (
 			user_id,
