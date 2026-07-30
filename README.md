@@ -341,19 +341,40 @@ Tested with Postman.
 * Service Layer implementation will begin after completing the repository layer.
 
 ### 📌 Architecture
-
-```text
-HTTP Request
-      │
-      ▼
- Job Handler
-      │
-      ▼
- Job Repository (Interface)
-      │
-      ▼
- In-Memory Repository
-```
+                     HTTP Request
+                           │
+                           ▼
+        ┌──────────────────────────────┐
+        │ Authorization Middleware     │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │        Handler Layer         │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │        Service Layer         │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │   Repository Interface       │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │ Repository Implementation    │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │      PostgreSQL + SQLX       │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+                  HTTP Response
 
 🚀 Service Layer (Job Module)
 Overview
