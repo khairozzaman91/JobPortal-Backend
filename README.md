@@ -1,169 +1,6 @@
 # Job Portal Backend (Go)
 
-A scalable Job Portal Backend API built with Go using the standard `net/http` package. This project is being developed incrementally, where each feature is implemented, tested with Postman, and verified before moving to the next development step.
-
----
-
-# Development Progress
-
-## Step 1: Project Setup
-
-### Development
-
-- Initialized Go Module
-- Organized project structure
-- Configured HTTP server using Go standard library
-- Established clean and modular project architecture
-
-### Testing
-
-- Server startup verified
-- Basic API routing tested
-
----
-
-## Step 2: Job Management
-
-### Development
-
-- Implemented Job domain model
-- Created POST `/jobs`
-- Implemented GET `/jobs`
-- Implemented PUT `/jobs/{id}`
-- Implemented DELETE `/jobs/{id}`
-- Completed full CRUD operations for job management
-
-### Testing (Postman)
-
-- Create Job with valid JSON
-- Retrieve all jobs
-- Update job information
-- Delete job by ID
-- Invalid JSON handling
-- Method validation
-- JSON response verification
-
----
-
-## Step 3: User Management
-
-### Development
-
-- Implemented User domain model
-- Created POST `/users`
-- Implemented GET `/users`
-- Implemented POST `/login`
-- User authentication using email and password
-
-### Testing (Postman)
-
-- User registration tested
-- Retrieve users tested
-- Login authentication tested
-- Invalid login credentials tested
-
----
-
-## Step 4: Environment Configuration
-
-### Development
-
-- Added `.env` file support
-- Implemented centralized configuration loader
-- Loaded application configuration from environment variables
-
-### Configuration
-
-- Service Name
-- Version
-- HTTP Port
-- JWT Secret
-
-### Testing
-
-- Environment variables loaded successfully
-- Server started using configured port
-
----
-
-## Step 5: Middleware Implementation
-
-### CORS Middleware
-
-- Added CORS support
-- Configured allowed origins
-- Configured allowed HTTP methods
-- Configured allowed headers
-- Added preflight request handling (OPTIONS)
-
-### Logger Middleware
-
-- Implemented request logging middleware
-- Logs HTTP method
-- Logs request path
-- Tracks request execution time
-
-### Testing (Postman)
-
-- CORS headers verified
-- OPTIONS preflight request tested
-- API request logging verified
-
----
-
-## Step 6: Custom JWT Authentication
-
-### Development
-
-Implemented JWT authentication from scratch without using any third-party JWT library.
-
-- Custom JWT generation
-- HMAC-SHA256 signature
-- Base64URL encoding
-- JWT payload creation
-- Issued At (`iat`)
-- Expiration Time (`exp`)
-
-### JWT Payload
-
-- User ID (`sub`)
-- First Name
-- Last Name
-- Email
-
-### Testing (Postman)
-
-- JWT generated after successful login
-- JWT returned to client
-- Token structure verified
-
----
-
-## Step 7: Authorization Middleware
-
-### Development
-
-Implemented custom JWT Authorization Middleware.
-
-- Bearer Token validation
-- JWT signature verification
-- Payload decoding
-- Token expiration validation
-- Protected routes support
-
-### Protected Endpoints
-
-- POST `/jobs`
-- PUT `/jobs/{id}`
-- DELETE `/jobs/{id}`
-
-### Testing (Postman)
-
-- Valid JWT accepted
-- Missing token rejected
-- Invalid token rejected
-- Expired token rejected
-- Protected routes verified
+A scalable and production-oriented Job Portal Backend built with **Go (Golang)** using the standard `net/http` package. The project follows a clean layered architecture and is being developed incrementally. Every feature is implemented, tested with Postman, verified, and then refactored before moving to the next development phase.
 
 ---
 
@@ -171,332 +8,602 @@ Implemented custom JWT Authorization Middleware.
 
 - Go (Golang)
 - Standard Library (`net/http`)
-- Custom JWT Authentication
-- Environment Configuration (`.env`)
+- PostgreSQL
+- SQLX
+- JWT (Custom Implementation)
+- bcrypt
 - Postman
+- Environment Variables (`.env`)
 
 ---
 
-## Middleware
+# Project Architecture
 
-Implemented a custom Middleware Manager to simplify middleware registration and execution. The manager supports both global middleware and route-specific middleware, making the request pipeline clean, modular, and easy to extend.
+```
+HTTP Request
+      │
+      ▼
+Middleware
+      │
+      ▼
+Handler
+      │
+      ▼
+Service
+      │
+      ▼
+Repository
+      │
+      ▼
+PostgreSQL
+      │
+      ▼
+HTTP Response
+```
 
-**Features Added:**
-- Middleware Manager
-- Global Middleware Registration (`Use`)
-- Route-Specific Middleware (`With`)
+---
+
+# Development Journey
+
+---
+
+# Step 1 — Project Initialization
+
+## Development
+
+- Initialized Go Module
+- Organized project structure
+- Configured HTTP Server
+- Built modular folder structure
+- Implemented basic routing
+
+### Tested
+
+- Server startup
+- API routing
+- JSON responses
+
+---
+
+# Step 2 — Job Management
+
+## Development
+
+Implemented complete Job CRUD.
+
+### APIs
+
+- POST `/jobs`
+- GET `/jobs`
+- PUT `/jobs/{id}`
+- DELETE `/jobs/{id}`
+
+### Tested
+
+- Create Job
+- List Jobs
+- Update Job
+- Delete Job
+- Invalid JSON
+- Invalid HTTP Methods
+
+---
+
+# Step 3 — User Management
+
+## Development
+
+Implemented User Management APIs.
+
+### APIs
+
+- POST `/users`
+- GET `/users`
+- POST `/login`
+
+### Tested
+
+- User Registration
+- User Listing
+- Login
+- Invalid Credentials
+
+---
+
+# Step 4 — Environment Configuration
+
+## Development
+
+Added centralized application configuration.
+
+### Added
+
+- .env support
+- HTTP Port
+- JWT Secret
+- Service Name
+- Version
+
+### Tested
+
+- Environment loading
+- Server configuration
+
+---
+
+# Step 5 — Middleware System
+
+## Development
+
+Built a reusable Middleware Manager.
+
+### Implemented
+
+- Global Middleware
+- Route Middleware
 - Middleware Chaining
-- CORS Middleware
-- Logger Middleware
 
-**Tested with Postman:**
-- Verified Global Middleware execution
-- Verified Route-Specific Middleware execution
-- Verified protected routes require JWT authentication
-- Verified public routes are accessible without authentication
-- Verified CORS preflight requests
-- Verified request logging for all incoming requests
+### Middlewares
 
-## (Update) Role Based Authorization (RBAC)
+- CORS
+- Logger
 
-Implemented role-based authorization using JWT.
+### Tested
 
-### What Changed
+- Request Logging
+- CORS
+- OPTIONS Request
+- Middleware Execution
 
-- Added user role support.
-- Added role information inside JWT payload.
-- Created `RequireRole` middleware.
-- Protected job routes based on user roles.
+---
 
-### Supported Roles
+# Step 6 — Custom JWT Authentication
 
-- employer
-- jobseeker
-- admin
+## Development
 
+Implemented JWT completely from scratch without using third-party JWT libraries.
 
-### Authorization Flow
+### Features
 
+- Base64URL Encoding
+- HMAC SHA256 Signature
+- JWT Payload
+- Token Expiration
+- Issued Time
+- Signature Verification
 
-Request
-|
-v
-Authorization Middleware
-|
-v
-JWT Verification
-|
-v
-Extract User Claims
-|
-v
-Role Checking Middleware
-|
-v
-Handler Access
+### Payload
 
-### Protected Routes
+- User ID
+- First Name
+- Last Name
+- Email
 
-Job creation, update, and delete routes now require authentication and role permission.
+### Tested
 
+- Login
+- Token Generation
+- Token Validation
 
-### Testing
+---
 
-Tested with Postman.
+# Step 7 — Authorization Middleware
 
-- Employer token → Can access job management routes ✅
-- Jobseeker token → Access denied with 403 Forbidden ❌
+## Development
 
+Protected private APIs using JWT Authorization.
 
-### 🚀 Recent Updates
-- JWT Authentication
-- Implemented custom JWT authentication using HMAC SHA256.
-- Generated JWT token after successful user login.
-- Protected private routes using Authorization middleware.
-- Validated JWT signature and token expiration.
-- Role-Based Access Control (RBAC)
+### Features
 
-### Implemented three user roles:
+- Bearer Token Validation
+- Signature Verification
+- Expiration Validation
+- Protected Routes
+
+### Protected APIs
+
+- POST `/jobs`
+- PUT `/jobs/{id}`
+- DELETE `/jobs/{id}`
+
+### Tested
+
+- Valid Token
+- Missing Token
+- Invalid Token
+- Expired Token
+
+---
+
+# Step 8 — Role-Based Access Control (RBAC)
+
+## Development
+
+Implemented role-based authorization.
+
+### Roles
 
 - Admin
 - Employer
-- Jobseeker
-- Protected Routes
-- GET /users → Admin only
-- POST /jobs → Employer only
-- PUT /jobs/{id} → Employer only
-- DELETE /jobs/{id} → Employer only
-- Postman Testing
+- Job Seeker
 
-### Successfully tested:
+### Features
+
+- RequireRole Middleware
+- Role Validation
+- Protected Endpoints
+
+### Permissions
+
+Admin
+
+- Full Access
+
+Employer
+
+- Create Job
+- Update Own Job
+- Delete Own Job
+
+Job Seeker
+
+- View Jobs
+
+### Tested
+
+- Employer Access
+- Admin Access
+- Forbidden Access
+- 403 Responses
+
+---
+
+# Step 9 — Job Ownership Authorization
+
+## Development
+
+Implemented ownership verification.
+
+### Features
+
+- Automatically assign logged-in user as job owner
+- Employer can update only own jobs
+- Employer can delete only own jobs
+- Admin can manage all jobs
+
+### Tested
+
+- Owner Update
+- Owner Delete
+- Unauthorized Access
+
+---
+
+# Step 10 — Project Refactoring
+
+## Development
+
+Improved project architecture.
+
+### Refactoring
+
+- Server Struct
+- Dependency Injection
+- Constructor Functions
+- Handler Structs
+- Better Routing
+- Cleaner Folder Structure
+
+---
+
+# Step 11 — Repository Pattern
+
+## Development
+
+Separated data access from business logic.
+
+### Implemented
+
+- Repository Interface
+- Job Repository
+- User Repository
+- Dependency Injection
+
+### Benefits
+
+- Loose Coupling
+- Easy Testing
+- Database Independent
+- Cleaner Architecture
+
+---
+
+# Step 12 — Service Layer
+
+## Development
+
+Added Service Layer between Handler and Repository.
+
+### Implemented
+
+- Job Service
+- User Service
+- Business Logic Layer
+
+### Benefits
+
+- Clean Separation
+- Easier Maintenance
+- Better Validation
+- Future Scalability
+
+---
+
+# Step 13 — PostgreSQL Integration
+
+## Development
+
+Migrated repositories from in-memory storage to PostgreSQL using SQLX.
+
+### Completed
+
+- PostgreSQL Connection
+- SQLX Integration
+- User Repository Migration
+- Job Repository Migration
+
+### SQL Operations
+
+- Create
+- Read
+- Update
+- Delete
+
+### Tested
+
+- CRUD Operations
+- SQL Queries
+- Database Connectivity
+
+---
+
+# Step 14 — Authentication Improvements
+
+## Password Hashing
+
+Implemented secure authentication using bcrypt.
+
+### Features
+
+- Password Hashing
+- Password Verification
+- Secure Login
+- Plain Password Protection
+
+### Tested
+
+- Registration
+- Login
+- Password Verification
+
+---
+
+# Step 15 — Job Seeker Profile Module
+
+## Development
+
+Created a dedicated Job Seeker Profile module.
+
+### Features
+
+- Create Profile
+- View Profile
+- Update Profile
+- Delete Profile
+- JWT Authentication
+- PostgreSQL Storage
+
+### Architecture
+
+Handler
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+PostgreSQL
+
+---
+
+# Testing
+
+Every feature was verified using **Postman** before moving to the next development phase.
+
+### Verified
 
 - User Registration
 - User Login
 - JWT Authentication
-- Role-Based Authorization
-- Route Protection
+- Authorization
+- RBAC
+- Job CRUD
+- Job Ownership
+- User CRUD
+- PostgreSQL CRUD
+- Job Seeker Profile
+- Password Hashing
+- Error Handling
 
+---
 
-## Latest Update
+# Current Features
 
-### Role-Based Job Creation
+### Authentication
 
-- Added role-based access control for job creation.
-- Only **Admin** and **Employer** can create job posts.
-- **Jobseeker** users receive **403 Forbidden** when attempting to create jobs.
-- Automatically assign the logged-in user's ID to the `posted_by` field using JWT claims.
-- Protected the `POST /jobs` endpoint with Authorization and RequireRole middleware.
+- User Registration
+- Login
+- Custom JWT
+- Authorization
+- Password Hashing
 
+### Authorization
 
-### Job Ownership
+- RBAC
+- Ownership Validation
+- Protected Routes
 
-- Added ownership validation for updating jobs.
-- Employers can update only their own jobs.
-- Admin can update any job.
-- Unauthorized updates return 403 Forbidden.
+### Jobs
 
+- Create Job
+- Update Job
+- Delete Job
+- View Jobs
 
-## Job Ownership Authorization
+### User
 
-### Features
+- Register
+- Login
+- CRUD
 
-- Employers can create job posts.
-- The authenticated user is automatically assigned as the job owner (`posted_by`).
-- Employers can update only their own job posts.
-- Employers can delete only their own job posts.
-- Admin can update any job (current implementation).
-- Admin can delete any job.
-- Unauthorized update/delete requests return `403 Forbidden`.
+### Job Seeker
 
+- Create Profile
+- Update Profile
+- Delete Profile
+- View Profile
 
-## Refactor
+### Architecture
 
-- Added `repository/` directory for Repository Pattern implementation.
-- Added `service/` directory for Business Logic layer.
-- Introduced `JobHandler` and `UserHandler` structs.
-- Added constructors (`NewJobHandler`, `NewUserHandler`).
-- Refactored job and user handlers from standalone functions to methods.
-- Moved route registration into handler structs.
-- Introduced `Server` struct and `NewServer()` constructor.
-- Injected application configuration into the server.
-- Centralized PostgreSQL connection in the server startup.
-- Improved project structure to prepare for Repository Pattern and Clean Architecture.
+- Middleware
+- Handler
+- Service
+- Repository
+- PostgreSQL
+- SQLX
+- Dependency Injection
 
+---
 
-## 🚀 Repository Pattern Refactor
+# Upcoming Development
 
-### ✅ Completed
+The following features are planned before the project reaches its first stable production-ready release.
 
-* Introduced the `JobRepository` interface to decouple business logic from data storage.
-* Implemented an in-memory `JobRepository`.
-* Applied Dependency Injection (DI) by injecting the repository into the `JobHandler`.
-* Refactored all Job CRUD handlers to use the repository instead of directly accessing the infrastructure layer.
-* Added proper error handling to repository methods.
-* Initialized in-memory seed data through the repository.
+---
 
-### 🔄 Current Status
+## 1. Pagination
 
-* Job Repository Pattern is completed.
-* User Repository Pattern is the next task.
-* Service Layer implementation will begin after completing the repository layer.
+Implement efficient pagination for listing APIs.
 
-### 📌 Architecture
-                     HTTP Request
-                           │
-                           ▼
-        ┌──────────────────────────────┐
-        │ Authorization Middleware     │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │        Handler Layer         │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │        Service Layer         │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │   Repository Interface       │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │ Repository Implementation    │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-        ┌──────────────────────────────┐
-        │      PostgreSQL + SQLX       │
-        └──────────────┬───────────────┘
-                       │
-                       ▼
-                  HTTP Response
+### Planned Features
 
-🚀 Service Layer (Job Module)
-Overview
+- Page & Limit parameters
+- Total records
+- Total pages
+- Current page metadata
+- SQL LIMIT & OFFSET
+- Standard paginated response
 
-A Service Layer has been introduced between the Handler and Repository to improve the project's architecture and maintain a clear separation of responsibilities.
+---
 
-What Changed
-Added JobService interface.
-Added JobService implementation.
-Refactored JobHandler to communicate with the service layer instead of accessing the repository directly.
-Repository remains responsible only for data access.
-Service layer is ready for future business logic and validations.
-Current Request Flow
-HTTP Request
-      │
-      ▼
-Job Handler
-      │
-      ▼
-Job Service
-      │
-      ▼
-Job Repository
-      │
-      ▼
-In-Memory Storage
-Benefits
-Clear separation of concerns.
-Easier to maintain and extend.
-Business logic can be added without modifying handlers.
-Makes future PostgreSQL integration straightforward by replacing only the repository implementation.
-Current Progress
-✅ Repository Layer
-✅ Job Service Layer
-⏳ User Service Layer
-⏳ PostgreSQL Integration
-⏳ Authentication Improvements
-⏳ Business Logic & Validation
+## 2. Rate Limiting
 
-## Latest Update
+Protect APIs from abuse and excessive traffic.
 
-### User Repository Migration (SQLX)
+### Planned Features
 
-The User Repository has been migrated from an in-memory slice to PostgreSQL using SQLX.
+- IP-based request limiting
+- Configurable request window
+- Configurable request limits
+- HTTP 429 responses
+- Middleware integration
+- Automatic counter reset
 
-### Completed
+---
 
-- Connected PostgreSQL using SQLX
-- Repository constructor now accepts `*sqlx.DB`
-- Migrated User CRUD operations to SQL queries:
-  - Create User
-  - Get All Users
-  - Get User By ID
-  - Update User
-  - Delete User
-  - Delete All Users
-- Removed in-memory storage dependency for UserRepository
+## 3. Payment Integration
 
-### Current Status
+Introduce premium payment support.
 
-- ✅ User Repository (SQLX)
-- 🚧 Job Repository (In Progress)
-- 🚧 Database-based Login (Coming Next)
-- 🚧 Password Hashing (bcrypt)
+### Planned Features
 
+- Payment initialization
+- Payment verification
+- Transaction management
+- Premium job posting
+- Subscription-ready design
+- Secure payment workflow
 
-## Summary
+---
 
-- Migrated JobRepository from in-memory storage to PostgreSQL using SQLX.
-- Removed in-memory `jobList` and `GenerateInitPost()`.
-- Implemented SQL-based CRUD operations:
-  - Store
-  - List
-  - Get
-  - Update
-  - Delete
-  - DeleteAll
+## 4. Database Migration
 
-## Notes
+Implement version-controlled database migrations.
 
-- UserRepository has already been migrated to SQLX.
-- Login is still using the in-memory user list and will be migrated in the next update.
+### Planned Features
 
-
-## Job Seeker Profile
-
-Implemented a dedicated Job Seeker Profile module that allows authenticated job seekers to manage their personal and professional information.
-
-### Features
-
-- Create a job seeker profile
-- View profile information
-- Update profile details
-- Delete profile
-- JWT-based authentication for secure profile access
-- User identity is automatically retrieved from the JWT token
-- Layered architecture (Handler → Service → Repository)
-- PostgreSQL integration using sqlx
-
-## 🔐 Password Security
-
-Implemented secure password hashing using **bcrypt**.
-
-### Features
-
-- Passwords are hashed before storing in the database
-- Plain text passwords are never stored
-- Password verification is performed using bcrypt during login
-- Improved authentication security
-
-# Next Development Steps
-
-- Job Application System
-- Rate Limiting
-- Refresh Token
-- Unit Testing
-- Docker Support
+- SQL Migration Files
+- Up Migration
+- Down Migration
+- Version Tracking
+- Automatic Migration Execution
+- Easy Environment Setup
 
 ---
 
 # Current Status
 
+**Project Status:** 🚧 In Progress
 
+## Completed
 
-Project Status: In Progress 
+- Project Initialization
+- Job CRUD
+- User Management
+- Environment Configuration
+- Middleware Manager
+- CORS Middleware
+- Logger Middleware
+- Custom JWT Authentication
+- Authorization Middleware
+- Role-Based Access Control (RBAC)
+- Job Ownership Authorization
+- Repository Pattern
+- Service Layer
+- PostgreSQL Integration (SQLX)
+- User Repository Migration
+- Job Repository Migration
+- Password Hashing (bcrypt)
+- Job Seeker Profile Module
+
+## Remaining
+
+- Pagination
+- Rate Limiting
+- Payment Integration
+- Database Migration
+
+---
+
+# Future Goal
+
+The goal of this project is to become a production-ready backend by following modern backend engineering practices including:
+
+- Clean Architecture
+- SOLID Principles
+- Repository Pattern
+- Service Layer
+- Secure Authentication
+- PostgreSQL
+- SQLX
+- Scalable API Design
+- Production Middleware
+- Database Migration
+- Payment Integration
+- Rate Limiting
+- Pagination
