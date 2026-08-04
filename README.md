@@ -521,11 +521,7 @@ GET /jobs?page=1&limit=5
 }
 ```
 
-# Upcoming Development
 
-The following features are planned before the project reaches its first stable production-ready release.
-
----
 
 ## 2. Rate Limiting
 
@@ -541,7 +537,11 @@ Protect APIs from abuse and excessive traffic.
 - Automatic counter reset
 
 ---
+# Upcoming Development
 
+The following features are planned before the project reaches its first stable production-ready release.
+
+---
 ## 3. Payment Integration
 
 Introduce premium payment support.
@@ -600,7 +600,7 @@ Implement version-controlled database migrations.
 ## Remaining
 
 - Pagination(Done)
-- Rate Limiting
+- Rate Limiting(Done)
 - Payment Integration
 - Database Migration
 
