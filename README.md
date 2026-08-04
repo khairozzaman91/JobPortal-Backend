@@ -519,7 +519,7 @@ GET /jobs?page=1&limit=5
   "total_items": 20,
   "total_pages": 4
 }
-
+```
 
 # Upcoming Development
 
