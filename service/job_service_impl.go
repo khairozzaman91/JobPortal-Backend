@@ -19,10 +19,13 @@ func (s *JobServiceImpl) Store(job domain.Job) (domain.Job, error) {
 	return s.repo.Store(job)
 }
 
-func (s *JobServiceImpl) List() ([]domain.Job, error) {
-	return s.repo.List()
+func (s *JobServiceImpl) List(page, limit int64) ([]*domain.Job, error) {
+	return s.repo.List(page, limit)
 }
 
+func (s *JobServiceImpl) Count() (int64, error) {
+	return s.repo.Count()
+}
 
 func (s *JobServiceImpl) Get(id int) (*domain.Job, error) {
 	return s.repo.Get(id)

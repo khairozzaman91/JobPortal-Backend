@@ -51,7 +51,9 @@ func (r *JobRepositoryImpl) Store(job domain.Job) (domain.Job, error) {
 	return job, nil
 }
 
-func (r *JobRepositoryImpl) List() ([]domain.Job, error) {
+func (r *JobRepositoryImpl) List(page, limit int64) ([]*domain.Job, error) {
+
+	offset := ((page - 1) * limit + 1)
 
 	query := `
 		SELECT
@@ -68,17 +70,37 @@ func (r *JobRepositoryImpl) List() ([]domain.Job, error) {
 			created_at,
 			updated_at
 		FROM jobs
-		ORDER BY id;
+		ORDER BY id
+		LIMIT $1
+		OFFSET $2;
 	`
 
-	var jobs []domain.Job
+	var jobs []*domain.Job
 
-	err := r.db.Select(&jobs, query)
+	err := r.db.Select(&jobs, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}
 
 	return jobs, nil
+}
+
+func (r *JobRepositoryImpl) Count() (int64, error) {
+
+	query := `
+		SELECT COUNT(*)
+		FROM jobs;
+	`
+
+	var count int64
+
+	err := r.db.Get(&count, query)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }
 
 func (r *JobRepositoryImpl) Get(jobID int) (*domain.Job, error) {
