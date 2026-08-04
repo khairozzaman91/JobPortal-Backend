@@ -9,12 +9,14 @@ import (
 func (h *JobSeekerHandler) RegisterRoutes(
 	mux *http.ServeMux,
 	manager *middlewares.Manager,
+	rateLimiter *middlewares.RateLimiter,
 ) {
 
 	mux.Handle(
 		"POST /jobseeker/profile",
 		manager.With(
 			http.HandlerFunc(h.CreateProfile),
+			rateLimiter.Limit,
 			h.middlewares.Authorization,
 		),
 	)
@@ -31,6 +33,7 @@ func (h *JobSeekerHandler) RegisterRoutes(
 		"PUT /jobseeker/profile",
 		manager.With(
 			http.HandlerFunc(h.UpdateProfile),
+			rateLimiter.Limit,
 			h.middlewares.Authorization,
 		),
 	)
