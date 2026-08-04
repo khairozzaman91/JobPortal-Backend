@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/khairozzaman91/JobPortal-Backend/config"
 	"github.com/khairozzaman91/JobPortal-Backend/rest/handlers/jobs"
@@ -35,6 +36,10 @@ func NewServer(
 func (server *Server) Start() {
 
 	manager := middlewares.NewManager()
+	rateLimiter := middlewares.NewRateLimiter(
+		5,
+		time.Minute,
+	)
 
 	mux := http.NewServeMux()
 
@@ -44,9 +49,23 @@ func (server *Server) Start() {
 	)
 
 	// Register Routes
-	server.jobHandler.RegisterRoutes(mux, manager)
-	server.userHandler.RegisterRoutes(mux, manager)
-	server.jobSeekerHandler.RegisterRoutes(mux, manager)
+	server.jobHandler.RegisterRoutes(
+		mux,
+		manager,
+		rateLimiter,
+	)
+
+	server.userHandler.RegisterRoutes(
+		mux,
+		manager,
+		rateLimiter,
+	)
+
+	server.jobSeekerHandler.RegisterRoutes(
+		mux,
+		manager,
+		rateLimiter,
+	)
 
 	handler := manager.Wrapper(mux)
 

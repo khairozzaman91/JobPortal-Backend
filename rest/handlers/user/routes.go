@@ -6,11 +6,18 @@ import (
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
-func (h *UserHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
+func (h *UserHandler) RegisterRoutes(
+	mux *http.ServeMux,
+	manager *middlewares.Manager,
+	rateLimiter *middlewares.RateLimiter,
+) {
 
 	mux.Handle(
 		"POST /users",
-		http.HandlerFunc(h.CreateUser),
+		manager.With(
+			http.HandlerFunc(h.CreateUser),
+			rateLimiter.Limit,
+		),
 	)
 
 	mux.Handle(
@@ -24,9 +31,11 @@ func (h *UserHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Ma
 
 	mux.Handle(
 		"POST /login",
-		http.HandlerFunc(h.LoginUser),
+		manager.With(
+			http.HandlerFunc(h.LoginUser),
+			rateLimiter.Limit,
+		),
 	)
-
 
 	mux.Handle(
 		"GET /users/{id}",

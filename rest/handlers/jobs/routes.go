@@ -6,16 +6,26 @@ import (
 	middlewares "github.com/khairozzaman91/JobPortal-Backend/rest/middleware"
 )
 
-func (h *JobHandler) RegisterRoutes(mux *http.ServeMux, manager *middlewares.Manager) {
+func (h *JobHandler) RegisterRoutes(
+	mux *http.ServeMux,
+	manager *middlewares.Manager,
+	rateLimiter *middlewares.RateLimiter,
+) {
 
 	mux.Handle(
 		"GET /jobs",
-		http.HandlerFunc(h.GetJobs),
+		manager.With(
+			http.HandlerFunc(h.GetJobs),
+			rateLimiter.Limit,
+		),
 	)
 
 	mux.Handle(
 		"GET /jobs/{id}",
-		http.HandlerFunc(h.GetById),
+		manager.With(
+			http.HandlerFunc(h.GetById),
+			rateLimiter.Limit,
+		),
 	)
 
 	mux.Handle(
