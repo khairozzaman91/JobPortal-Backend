@@ -490,24 +490,40 @@ Every feature was verified using **Postman** before moving to the next developme
 
 ---
 
+
+## Pagination Development 
+
+Implemented server-side pagination for the Job Listing API.
+
+### Features
+
+- Page-based pagination
+- Configurable `page` and `limit` query parameters
+- SQL `LIMIT` and `OFFSET`
+- Total record count using `COUNT(*)`
+- Total pages calculation
+- Clean Architecture implementation
+- PostgreSQL + SQLX integration
+
+### Example Request
+
+GET /jobs?page=1&limit=5
+
+### Example Response
+
+```json
+{
+  "data": [...],
+  "page": 1,
+  "limit": 5,
+  "total_items": 20,
+  "total_pages": 4
+}
+
+
 # Upcoming Development
 
 The following features are planned before the project reaches its first stable production-ready release.
-
----
-
-## 1. Pagination
-
-Implement efficient pagination for listing APIs.
-
-### Planned Features
-
-- Page & Limit parameters
-- Total records
-- Total pages
-- Current page metadata
-- SQL LIMIT & OFFSET
-- Standard paginated response
 
 ---
 
