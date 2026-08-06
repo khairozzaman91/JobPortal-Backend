@@ -1,4 +1,6 @@
-CREATE TABLE job_seeker_profiles (
+-- +migrate Up
+
+CREATE TABLE IF NOT EXISTS job_seeker_profiles (
     id SERIAL PRIMARY KEY,
 
     user_id INTEGER NOT NULL UNIQUE,

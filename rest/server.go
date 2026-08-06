@@ -1,7 +1,9 @@
 package rest
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/khairozzaman91/JobPortal-Backend/cmd"
 	"github.com/khairozzaman91/JobPortal-Backend/config"
@@ -23,6 +25,12 @@ func Server() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	err = postgres.MigrateDB(db, "./migrations")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	authMiddleware := middlewares.NewAuthMiddleware(cnf)
 
