@@ -535,40 +535,43 @@ Protect APIs from abuse and excessive traffic.
 - HTTP 429 responses
 - Middleware integration
 - Automatic counter reset
-
----
-# Upcoming Development
-
-The following features are planned before the project reaches its first stable production-ready release.
-
----
-## 3. Payment Integration
-
-Introduce premium payment support.
-
-### Planned Features
-
-- Payment initialization
-- Payment verification
-- Transaction management
-- Premium job posting
-- Subscription-ready design
-- Secure payment workflow
-
 ---
 
-## 4. Database Migration
+# Completed Features
 
-Implement version-controlled database migrations.
+## Database Migration
 
-### Planned Features
+The project now includes version-controlled database migrations using **sql-migrate**.
+
+### Implemented Features
 
 - SQL Migration Files
 - Up Migration
 - Down Migration
 - Version Tracking
-- Automatic Migration Execution
-- Easy Environment Setup
+- Database Schema Management
+- Easy Database Setup
+
+---
+
+# Upcoming Development
+
+The following features are planned before the project reaches its first stable production-ready release.
+
+---
+
+## Payment Integration
+
+Introduce secure payment support for premium services.
+
+### Planned Features
+
+- Payment Initialization
+- Payment Verification
+- Transaction Management
+- Premium Job Posting
+- Subscription Plans
+- Secure Payment Workflow
 
 ---
 
@@ -579,9 +582,11 @@ Implement version-controlled database migrations.
 ## Completed
 
 - Project Initialization
-- Job CRUD
-- User Management
 - Environment Configuration
+- PostgreSQL Integration (SQLX)
+- Repository Pattern
+- Service Layer
+- Clean Architecture
 - Middleware Manager
 - CORS Middleware
 - Logger Middleware
@@ -589,37 +594,38 @@ Implement version-controlled database migrations.
 - Authorization Middleware
 - Role-Based Access Control (RBAC)
 - Job Ownership Authorization
-- Repository Pattern
-- Service Layer
-- PostgreSQL Integration (SQLX)
-- User Repository Migration
-- Job Repository Migration
 - Password Hashing (bcrypt)
+- User Management
+- Job Management (CRUD)
 - Job Seeker Profile Module
+- Server-Side Pagination
+- API Rate Limiting
+- SQL Database Migration
 
 ## Remaining
 
-- Pagination(Done)
-- Rate Limiting(Done)
 - Payment Integration
-- Database Migration
+- Subscription System
 
 ---
 
 # Future Goal
 
-The goal of this project is to become a production-ready backend by following modern backend engineering practices including:
+The goal of this project is to become a fully production-ready backend by following modern backend engineering practices, including:
 
 - Clean Architecture
 - SOLID Principles
 - Repository Pattern
 - Service Layer
-- Secure Authentication
+- RESTful API Design
+- JWT Authentication
+- Role-Based Access Control (RBAC)
 - PostgreSQL
 - SQLX
-- Scalable API Design
-- Production Middleware
 - Database Migration
+- API Rate Limiting
+- Server-Side Pagination
 - Payment Integration
-- Rate Limiting
-- Pagination
+- Subscription System
+- Scalable API Design
+- Production-Ready Middleware
